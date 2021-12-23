@@ -1,0 +1,31 @@
+version: '3.7'
+services:
+    mysql:
+        platform: linux/x86_64
+        image: "mysql:8.0"
+        container_name: api_mysql
+        volumes:
+          - data-db:/data/db
+        environment:
+          - MYSQL_ROOT_PASSWORD=Kas2104516
+          - MYSQL_DATABASE=app_dev
+          - MYSQL_USER=dev
+          - MYSQL_PASSWORD=dev
+        ports:
+          - "6001:3306"
+    phpmyadmin:
+       image: phpmyadmin/phpmyadmin
+       container_name: pma
+       depends_on:
+         - mysql
+       links:
+          - mysql
+       environment:
+        PMA_HOST: mysql
+        PMA_ARBITRARY: 1
+        MYSQL_ROOT_PASSWORD: Kas2104516
+        restart: always
+       ports:
+         - 8081:80
+volumes:
+  data-db:
