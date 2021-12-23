@@ -17,7 +17,7 @@ class ApiController extends AbstractController
 
 
     /**
-     * @Route ("/api/v1/test",methods={"POST"})
+     * @Route ("/api/v1/test",name="api_v1_test",methods={"POST"})
      * @param ManagerRegistry $doctrine
      * @param Request $request
      * @return JsonResponse

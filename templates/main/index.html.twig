@@ -3,18 +3,78 @@
 {% block title %}Hello MainController!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <style>
+        #result {
+            border: 2px dashed #666;
+            margin: 20px;
+            padding: 5px;
+            font-family: "Arial";
+        }
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+        .main {
+            display: grid;
+            grid-template-columns: 30% 70%;
+        }
+    </style>
+    <div class="main">
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/Users/kashif/Desktop/projects/vaisy/src/Controller/MainController.php'|file_link(0) }}">src/Controller/MainController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/Users/kashif/Desktop/projects/vaisy/templates/main/index.html.twig'|file_link(0) }}">templates/main/index.html.twig</a></code></li>
-    </ul>
-</div>
+        <div class="dropzone my-dropzone" id="form_snippet_image" action="{{ path('api_v1_test') }}">
+        </div>
+        <div class="json">
+            <pre id="result"> </pre>
+        </div>
+    </div>
+
 {% endblock %}
+{% block javascripts %}
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+            integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script>
+        Dropzone.autoDiscover = false;
+        $(function () {
+            uploader = new Dropzone(".dropzone", {
+                url: "{{ path('api_v1_test') }}",
+                paramName: "file",
+                uploadMultiple: false,
+                addRemoveLinks: true,
+                forceFallback: false,
+            });//end drop zone
+
+            uploader.on("success", function (file, response) {
+                var mainContainer = document.getElementById("result");
+
+                response.forEach(element => {
+                    var div = document.createElement("div");
+                    var jsonStr = JSON.stringify(element);
+                    var regeStr = '',
+                        f = {
+                            brace: 0
+                        }; // for tracking matches, in particular the curly braces
+
+                    regeStr = jsonStr.replace(/({|}[,]*|[^{}:]+:[^{}:,]*[,{]*)/g, function (m, p1) {
+                        var rtnFn = function () {
+                                return '<div style="text-indent: ' + (f['brace'] * 20) + 'px;">' + p1 + '</div>';
+                            },
+                            rtnStr = 0;
+                        if (p1.lastIndexOf('{') === (p1.length - 1)) {
+                            rtnStr = rtnFn();
+                            f['brace'] += 1;
+                        } else if (p1.indexOf('}') === 0) {
+                            f['brace'] -= 1;
+                            rtnStr = rtnFn();
+                        } else {
+                            rtnStr = rtnFn();
+                        }
+                        return rtnStr;
+                    });
+
+                    div.innerHTML += regeStr;
+                    mainContainer.appendChild(div);
+                });
+            });
+        });//end jq
+    </script>
+{% endblock %}
+
+
+
