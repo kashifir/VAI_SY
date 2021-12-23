@@ -1,12 +1,12 @@
 ### Symfony template
 # Cache and logs (Symfony2)
-/app/cache/*
-/app/logs/*
+/Vapp/cache/*
+/Vapp/logs/*
 !app/cache/.gitkeep
 !app/logs/.gitkeep
 
 # Email spool folder
-/app/spool/*
+/Vapp/spool/*
 
 # Cache, session files and logs (Symfony3)
 /var/cache/*
@@ -21,11 +21,11 @@
 !var/log/.gitkeep
 
 # Parameters
-/app/config/parameters.yml
-/app/config/parameters.ini
+/Vapp/config/parameters.yml
+/Vapp/config/parameters.ini
 
 # Managed by Composer
-/app/bootstrap.php.cache
+/Vapp/bootstrap.php.cache
 /var/bootstrap.php.cache
 /bin/*
 !bin/console
@@ -37,7 +37,7 @@
 /web/uploads/
 
 # PHPUnit
-/app/phpunit.xml
+/Vapp/phpunit.xml
 /phpunit.xml
 
 # Build data

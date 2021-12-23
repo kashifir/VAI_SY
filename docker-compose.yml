@@ -6,14 +6,14 @@ services:
 
   app:
     build:
-      context: ./app
+      context: Vapp
       dockerfile: Dockerfile
     ports:
       - "80:8080"
     container_name: vapp
     volumes:
-      - ./app:/usr/src/app
-      - /usr/src/app/node_modules
+      - ./Vapp:/usr/src/app
+      - /usr/src/Vapp/node_modules
     command: yarn serve
     environment:
       - CHOKIDAR_USEPOLLING=true # <---- this enables the hot reloading
