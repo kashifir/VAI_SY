@@ -85,17 +85,73 @@
     "egulias/email-validator": {
         "version": "3.1.2"
     },
+    "ezyang/htmlpurifier": {
+        "version": "v4.13.0"
+    },
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.5"
     },
+    "friendsofsymfony/rest-bundle": {
+        "version": "3.2",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "2.2",
+            "ref": "fa845143b7e0a4c70aedd1a88c549e6d977e9ae5"
+        }
+    },
+    "jms/metadata": {
+        "version": "2.6.1"
+    },
+    "jms/serializer": {
+        "version": "3.17.0"
+    },
+    "jms/serializer-bundle": {
+        "version": "4.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "3.0",
+            "ref": "384cec52df45f3bfd46a09930d6960a58872b268"
+        },
+        "files": [
+            "config/packages/dev/jms_serializer.yaml",
+            "config/packages/jms_serializer.yaml",
+            "config/packages/prod/jms_serializer.yaml"
+        ]
+    },
     "laminas/laminas-code": {
         "version": "4.5.1"
+    },
+    "maennchen/zipstream-php": {
+        "version": "2.1.0"
+    },
+    "markbaker/complex": {
+        "version": "3.0.1"
+    },
+    "markbaker/matrix": {
+        "version": "3.0.0"
     },
     "monolog/monolog": {
         "version": "2.3.5"
     },
     "myclabs/deep-copy": {
         "version": "1.10.2"
+    },
+    "myclabs/php-enum": {
+        "version": "1.8.3"
+    },
+    "nelmio/cors-bundle": {
+        "version": "2.2",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "1.5",
+            "ref": "6bea22e6c564fba3a1391615cada1437d0bde39c"
+        },
+        "files": [
+            "config/packages/nelmio_cors.yaml"
+        ]
     },
     "nikic/php-parser": {
         "version": "v4.13.2"
@@ -114,6 +170,9 @@
     },
     "phpdocumentor/type-resolver": {
         "version": "1.5.1"
+    },
+    "phpoffice/phpspreadsheet": {
+        "version": "1.20.0"
     },
     "phpspec/prophecy": {
         "version": "v1.15.0"
@@ -159,11 +218,23 @@
     "psr/event-dispatcher": {
         "version": "1.0.0"
     },
+    "psr/http-client": {
+        "version": "1.0.1"
+    },
+    "psr/http-factory": {
+        "version": "1.0.1"
+    },
+    "psr/http-message": {
+        "version": "1.0.1"
+    },
     "psr/link": {
         "version": "2.0.1"
     },
     "psr/log": {
         "version": "3.0.0"
+    },
+    "psr/simple-cache": {
+        "version": "1.0.1"
     },
     "sebastian/cli-parser": {
         "version": "1.0.1"
@@ -585,5 +656,11 @@
     },
     "webmozart/assert": {
         "version": "1.10.0"
+    },
+    "willdurand/jsonp-callback-validator": {
+        "version": "v1.1.0"
+    },
+    "willdurand/negotiation": {
+        "version": "3.0.0"
     }
 }
