@@ -45,7 +45,9 @@
 
                 response.forEach(element => {
                     var div = document.createElement("div");
+                    console.log(element)
                     var jsonStr = JSON.stringify(element);
+
                     var regeStr = '',
                         f = {
                             brace: 0
