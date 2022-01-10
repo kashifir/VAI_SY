@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use App\Repository\TestDevRepository;
 use Doctrine\ORM\Mapping as ORM;
-use JetBrains\PhpStorm\Internal\TentativeType;
 
 
 /**
@@ -13,7 +12,7 @@ use JetBrains\PhpStorm\Internal\TentativeType;
  * @ORM\Table(name="test_dev")
  * @ORM\Entity(repositoryClass=TestDevRepository::class)
  */
-class TestDev implements \Countable
+class TestDev
 
 {
     /**
@@ -1812,9 +1811,4 @@ class TestDev implements \Countable
         $this->unitDeMesure = $unitDeMesure;
     }
 
-
-    public function count()
-    {
-        // TODO: Implement count() method.
-    }
 }
