@@ -55,22 +55,26 @@ class ApiController extends AbstractController
                 $data = $val['data'];
                 $noms = $val['Noms'];
 
+
                 $test = $doctrine->getRepository(TestDev::class)->findBy(array(
-                    "noms" => $noms, "unitDeMesure" => array($Unit_de_mesure, ''), "sexe" => array($sexe, '')
+                    "noms" => $noms, "unitDeMesure" => array($Unit_de_mesure), "sexe" => array($sexe)
                 ));
                 foreach ($test as $key => $item) {
-                    if ($item->getThresholdAgeMin() == 0 && $item->getThresholdAgeMmx() == 0) {
-                        $testdev = $item;
+                    if ($item->getThresholdAgeMin() == 0 && $item->getThresholdAgeMax() == 0) {
+                        $reponse[] = $this->getresTest($item, $data);
+                        continue;
                     }
-                    if ($age >= $item->getThresholdAgeMin() && $age < $item->getThresholdAgeMmx()) {
-                        $testdev = $item;
+                    if ($age >= $item->getThresholdAgeMin() && $age < $item->getThresholdAgeMax()) {
+                        $reponse[] = $this->getresTest($item, $data);
+                        continue;
                     }
-                    if ($item->getThresholdAgeMmx() == 0 && $age > $item->getThresholdAgeMin()) {
-                        $testdev = $item;
+                    if ($item->getThresholdAgeMax() == 0 && $age > $item->getThresholdAgeMin()) {
+                        $reponse[] = $this->getresTest($item, $data);
+                        continue;
                     }
-
                 }
-                $reponse[] = $this->getresTest($testdev, $data);
+
+
             }
 
         }
@@ -103,406 +107,77 @@ class ApiController extends AbstractController
 
     /**
      *
-     * @param ? $test
+     * @param TestDev $test
      * @param string $data
      * @return array
      */
-    final public function getresTest($test, string $data): array
+    final public function getresTest(TestDev $test, string $data): array
     {
         $repose = [];
         // condition for Barre 1
-        switch ($test->getCondition1()) {
-            case "":
-                $repose = $this->getArr($test, $data);
-                break;
-            case "< ou >":
-                if ($data < $test->getThresholdMin() || $data > $test->getThresholdMax()) {
-                    $repose = $this->getArr($test, $data);
-                } else {
-                    $repose = $this->getFalArr($test, $data);
-                }
-                break;
-            case "O+ ou O-" :
-                if (strtolower($data) === "o+" || strtolower($data) === "o-") {
-                    $repose = $this->getArr($test, $data);
-                } else {
-                    $repose = $this->getFalArr($test, $data);
-                }
-                break;
-            case '>' :
-                if (floatval($data) > floatval($test->getThresholdMin()) && floatval($data) > floatval($test->getThresholdMax())) {
-                    $repose = $this->getArr($test, $data);
-                } else {
-                    $repose = $this->getFalArr($test, $data);
-                }
-                break;
-            case '<':
-                if (floatval($data) < floatval($test->getThresholdMin()) && floatval($data) < floatval($test->getThresholdMax())) {
-                    $repose = $this->getArr($test, $data);
-                } else {
-                    $repose = $this->getFalArr($test, $data);
-                }
-                break;
-            case 'Blessé':
-                if ($data == 'Blessé') {
-                    $repose = $this->getArr($test, $data);
-                } else {
-                    $repose = $this->getFalArr($test, $data);
-                }
-                break;
-            case 'Yes':
-                if ($data == 'Yes') {
-                    $repose = $this->getArr($test, $data);
-                } elseif ($data >= 50) {
-                    $repose = $this->getArr($test, $data);
-                } elseif ($data >= 25) {
-                    $repose = $this->getArr($test, $data);
-                } elseif ($data >= 10) {
-                    $repose = $this->getArr($test, $data);
-                } elseif ($data == 1) {
-                    $repose = $this->getArr($test, $data);
-                } else {
-                    $repose = $this->getFalArr($test, $data);
-                }
-                break;
-            case 'Compte Nb Yes>=10':
-                if ($data >= 10) {
-                    $repose = $this->getArr($test, $data);
-                } else {
-                    $repose = $this->getFalArr($test, $data);
-                }
-                break;
-            case '> 8 -10 <=':
-                if ($data > 8 && $data <= 10) {
-                    $repose = $this->getArr($test, $data);
-                } else {
-                    $repose = $this->getFalArr($test, $data);
-                }
-                break;
-            case '> 13':
-                if ($data > 13) {
-                    $repose = $this->getArr($test, $data);
-                } else {
-                    $repose = $this->getFalArr($test, $data);
-                }
-                break;
-            case '> 19':
-                if ($data > 19) {
-                    $repose = $this->getArr($test, $data);
-                } else {
-                    $repose = $this->getFalArr($test, $data);
-                }
-                break;
-            case '> 21':
-                if ($data > 21) {
-                    $repose = $this->getArr($test, $data);
-                } else {
-                    $repose = $this->getFalArr($test, $data);
-                }
-                break;
-            case '> 28':
-                if ($data > 28) {
-                    $repose = $this->getArr($test, $data);
-                } else {
-                    $repose = $this->getFalArr($test, $data);
-                }
-                break;
-            case '>= 5 - 6<':
-                if (floatval($data) >= floatval(5) && floatval($data) < 6) {
-                    $repose = $this->getArr($test, $data);
-                } else {
-                    $repose = $this->getFalArr($test, $data);
-                }
-                break;
-            case '>=140 -200<=':
-                if ($data >= 140 && $data <= 200) {
-                    $repose = $this->getArr($test, $data);
-                } else {
-                    $repose = $this->getFalArr($test, $data);
-                }
-                break;
-            case '>= 50 - 100 <':
-                if ($data >= 50 && $data < 100) {
-                    $repose = $this->getArr($test, $data);
-                } else {
-                    $repose = $this->getFalArr($test, $data);
-                }
-                break;
-            case '>= 20 - 30':
-                if ($data >= 20 || $data > 30) {
-                    $repose = $this->getArr($test, $data);
-                } else {
-                    $repose = $this->getFalArr($test, $data);
-                }
-                break;
-            case '>= 1:40 - 1:160<':
-                if (floatval($data) >= floatval('1:40') || floatval($data) > floatval('1:160')) {
-                    $repose = $this->getArr($test, $data);
-                } else {
-                    $repose = $this->getFalArr($test, $data);
-                }
-                break;
-            case '< 3,5':
-                if (floatval($data) < floatval("3.5")) {
-                    $repose = $this->getArr($test, $data);
-                } else {
-                    $repose = $this->getFalArr($test, $data);
-                }
-                break;
-            case '< 35':
-                if ($data < 35) {
-                    $repose = $this->getArr($test, $data);
-                } else {
-                    $repose = $this->getFalArr($test, $data);
-                }
-                break;
-            case '>=7,8 -11,1<=':
-                if (floatval($data) >= floatval("7.8") || floatval($data) < floatval("11,1")) {
-                    $repose = $this->getArr($test, $data);
-                } else {
-                    $repose = $this->getFalArr($test, $data);
-                }
-                break;
-            case 'Positivo / Yes':
-                if ($data == "Yes" || $data == "yes" || $data == "Positivo" || $data == "Positivo / Yes") {
-                    $repose = $this->getArr($test, $data);
-                } else {
-                    $repose = $this->getFalArr($test, $data);
-                }
-                break;
-            case '>12':
-                if ($data > 12) {
-                    $repose = $this->getArr($test, $data);
-                } else {
-                    $repose = $this->getFalArr($test, $data);
-                }
-                break;
-            case '1 - 3<':
-                if ($data < 3 || $data < 1) {
-                    $repose = $this->getArr($test, $data);
-                } else {
-                    $repose = $this->getFalArr($test, $data);
-                }
-                break;
-            case '> 30%':
-                if ($data > 30) {
-                    $repose = $this->getArr($test, $data);
-                } else {
-                    $repose = $this->getFalArr($test, $data);
-                }
-                break;
-            case '>14':
-                if ($data > 14) {
-                    $repose = $this->getArr($test, $data);
-                } else {
-                    $repose = $this->getFalArr($test, $data);
-                }
-                break;
-            case '>= 5 - 20<':
-                if ($data >= 5 && $data < 20) {
-                    $repose = $this->getArr($test, $data);
-                } else {
-                    $repose = $this->getFalArr($test, $data);
-                }
-                break;
-            case '>= 5 - 10<':
-                if ($data >= 5 && $data < 10) {
-                    $repose = $this->getArr($test, $data);
-                } else {
-                    $repose = $this->getFalArr($test, $data);
-                }
-                break;
-            case '>= 7 - 10<':
-                if ($data >= 7 && $data < 10) {
-                    $repose = $this->getArr($test, $data);
-                } else {
-                    $repose = $this->getFalArr($test, $data);
-                }
-                break;
-            case '>= 1800 - 1999 <=':
-                if ($data >= 1800 && $data < 1999) {
-                    $repose = $this->getArr($test, $data);
-                } else {
-                    $repose = $this->getFalArr($test, $data);
-                }
-                break;
-            case '< 250':
-                if ($data < 250) {
-                    $repose = $this->getArr($test, $data);
-                } else {
-                    $repose = $this->getFalArr($test, $data);
-                }
-                break;
-            case '>=2,5 - 25<':
-                if (floatval($data) >= floatval('2,5') && floatval($data) < 25) {
-                    $repose = $this->getArr($test, $data);
-                } else {
-                    $repose = $this->getFalArr($test, $data);
-                }
-                break;
-            case '>=3,5 - 35<':
-                if (floatval($data) >= floatval('3,5') && floatval($data) < 35) {
-                    $repose = $this->getArr($test, $data);
-                } else {
-                    $repose = $this->getFalArr($test, $data);
-                }
-                break;
-            case 'Compte Nb Yes>=50':
-                if ($data >= 50) {
-                    $repose = $this->getArr($test, $data);
-                } else {
-                    $repose = $this->getFalArr($test, $data);
-                }
-                break;
-            case 'Compte Nb Yes>=25':
-                if ($data >= 25) {
-                    $repose = $this->getArr($test, $data);
-                } else {
-                    $repose = $this->getFalArr($test, $data);
-                }
-                break;
-            case '1':
-                if ($data == 1) {
-                    $repose = $this->getArr($test, $data);
-                } else {
-                    $repose = $this->getFalArr($test, $data);
-                }
-                break;
-            case '+':
-                if ($data == '+') {
-                    $repose = $this->getArr($test, $data);
-                } else {
-                    $repose = $this->getFalArr($test, $data);
-                }
-                break;
-            case 'Yes + Grade 1':
-                if (strtolower($data) == 'yes + Grade 1' || $data == 'Yes' || strtolower($data) == "grade 1") {
-                    $repose = $this->getArr($test, $data);
-                } else {
-                    $repose = $this->getFalArr($test, $data);
-                }
-                break;
-            case '>= 21° - 40° <=':
-                if ($data >= 20 && $data < 40) {
-                    $repose = $this->getArr($test, $data);
-                } else {
-                    $repose = $this->getFalArr($test, $data);
-                }
-                break;
-            case '>= 60° - 61° <=':
-                if ($data >= 60 && $data < 61) {
-                    $repose = $this->getArr($test, $data);
-                } else {
-                    $repose = $this->getFalArr($test, $data);
-                }
-                break;
-            case '< 41°':
-                if ($data < 41) {
-                    $repose = $this->getArr($test, $data);
-                } else {
-                    $repose = $this->getFalArr($test, $data);
-                }
-                break;
-            case '< 45°':
-                if ($data < 45) {
-                    $repose = $this->getArr($test, $data);
-                } else {
-                    $repose = $this->getFalArr($test, $data);
-                }
-                break;
-            case '< 25°':
-                if ($data < 25) {
-                    $repose = $this->getArr($test, $data);
-                } else {
-                    $repose = $this->getFalArr($test, $data);
-                }
-                break;
-            case 'III°':
-                if ($data == "III") {
-                    $repose = $this->getArr($test, $data);
-                } else {
-                    $repose = $this->getFalArr($test, $data);
-                }
-                break;
-            case '> =':
-            case '>=':
-                if ($data >= $test->getThresholdMax()) {
-                    $repose = $this->getArr($test, $data);
-                } else {
-                    $repose = $this->getFalArr($test, $data);
-                }
-                break;
-            case '=<':
-                if ($data <= $test->getThresholdMax()) {
-                    $repose = $this->getArr($test, $data);
-                } else {
-                    $repose = $this->getFalArr($test, $data);
-                }
-                break;
-
-        }
-        switch ($test->getCondition2Barre1()) {
+        $repose = $this->conditionForBarre1($test, $data);
+        switch ($test->getCondition2DeBarre1()) {
             case "":
                 break;
             case '>10':
                 if ($data > 10) {
-                    $repose[0]['bar1']['point'] = $test->getPoints2Barre1();
+                    $repose[0]['bar1']['point'] = $test->getPoints2DeBarre1();
                     $repose[0]['bar2']['point'] = $test->getPoints1DeBarre2();
                 }
                 break;
             case '>=6-6,4':
                 if ($data >= 6 || floatval($data) <= floatval('6,4')) {
-                    $repose[0]['bar1']['point'] = $test->getPoints2Barre1();
-                    $repose[0]['bar1']['condition'] = $test->getCondition2Barre1();
+                    $repose[0]['bar1']['point'] = $test->getPoints2DeBarre1();
+                    $repose[0]['bar1']['condition'] = $test->getCondition2DeBarre1();
                     $repose[0]['bar2']['point'] = $test->getPoints1DeBarre2();
                 }
                 break;
             case '++':
                 if ($data == "++") {
-                    $repose[0]['bar1']['point'] = $test->getPoints2Barre1();
-                    $repose[0]['bar1']['condition'] = $test->getCondition2Barre1();
+                    $repose[0]['bar1']['point'] = $test->getPoints2DeBarre1();
+                    $repose[0]['bar1']['condition'] = $test->getCondition2DeBarre1();
                     $repose[0]['bar2']['point'] = $test->getPoints1DeBarre2();
                 }
                 break;
             case 'Compte : 2':
                 if ($data == 2) {
-                    $repose[0]['bar1']['point'] = $test->getPoints2Barre1();
-                    $repose[0]['bar1']['condition'] = $test->getCondition2Barre1();
+                    $repose[0]['bar1']['point'] = $test->getPoints2DeBarre1();
+                    $repose[0]['bar1']['condition'] = $test->getCondition2DeBarre1();
                     $repose[0]['bar2']['point'] = $test->getPoints1DeBarre2();
                 }
                 break;
             case 'Si "Varus or valgus malalignment" = Yes':
                 if ($data == "Yes" || $data == 'yes') {
-                    $repose[0]['bar1']['point'] = $test->getPoints2Barre1();
-                    $repose[0]['bar1']['condition'] = $test->getCondition2Barre1();
+                    $repose[0]['bar1']['point'] = $test->getPoints2DeBarre1();
+                    $repose[0]['bar1']['condition'] = $test->getCondition2DeBarre1();
                     $repose[0]['bar2']['point'] = $test->getPoints1DeBarre2();
                 }
                 break;
             case 'Yes + Grade 2':
                 if ($data == "Yes" || $data == 'Yes + Grade 2' || $data == 'yes + grade 2' || $data == 'Grade 2' || $data == 'grade 2') {
-                    $repose[0]['bar1']['point'] = $test->getPoints2Barre1();
-                    $repose[0]['bar1']['condition'] = $test->getCondition2Barre1();
+                    $repose[0]['bar1']['point'] = $test->getPoints2DeBarre1();
+                    $repose[0]['bar1']['condition'] = $test->getCondition2DeBarre1();
                     $repose[0]['bar2']['point'] = $test->getPoints1DeBarre2();
                 }
                 break;
             case '>40°':
                 if ($data > 40) {
-                    $repose[0]['bar1']['point'] = $test->getPoints2Barre1();
-                    $repose[0]['bar1']['condition'] = $test->getCondition2Barre1();
+                    $repose[0]['bar1']['point'] = $test->getPoints2DeBarre1();
+                    $repose[0]['bar1']['condition'] = $test->getCondition2DeBarre1();
                     $repose[0]['bar2']['point'] = $test->getPoints1DeBarre2();
                 }
                 break;
             case '>=61° - 71° <=':
                 if ($data >= 61 && $data <= 71) {
-                    $repose[0]['bar1']['point'] = $test->getPoints2Barre1();
-                    $repose[0]['bar1']['condition'] = $test->getCondition2Barre1();
+                    $repose[0]['bar1']['point'] = $test->getPoints2DeBarre1();
+                    $repose[0]['bar1']['condition'] = $test->getCondition2DeBarre1();
                     $repose[0]['bar2']['point'] = $test->getPoints1DeBarre2();
                 }
                 break;
             case 'IV°':
                 if ($data == 'IV') {
-                    $repose[0]['bar1']['point'] = $test->getPoints2Barre1();
-                    $repose[0]['bar1']['condition'] = $test->getCondition2Barre1();
+                    $repose[0]['bar1']['point'] = $test->getPoints2DeBarre1();
+                    $repose[0]['bar1']['condition'] = $test->getCondition2DeBarre1();
                     $repose[0]['bar2']['point'] = $test->getPoints1DeBarre2();
                 }
                 break;
@@ -561,128 +236,9 @@ class ApiController extends AbstractController
                 }
                 break;
         }
-        switch ($test->getCondition4DeBarre1()) {
-            case "":
-                break;
-            case '>10':
-                if ($data > 10) {
-                    $repose[0]['bar1']['point'] = $test->getPoints4DeBarre1();
-                    $repose[0]['bar1']['condition'] = $test->getCondition4DeBarre1();
-                    $repose[0]['bar2']['point'] = $test->getPoints1DeBarre2();
-                }
-                break;
-            case '>71°':
-                if ($data > 71) {
-                    $repose[0]['bar1']['point'] = $test->getPoints4DeBarre1();
-                    $repose[0]['bar1']['condition'] = $test->getCondition4DeBarre1();
-                    $repose[0]['bar2']['point'] = $test->getPoints1DeBarre2();
-                }
-                break;
-            case '>=6,5':
-                if (floatval($data) >= floatval('6,5')) {
-                    $repose[0]['bar1']['point'] = $test->getPoints4DeBarre1();
-                    $repose[0]['bar1']['condition'] = $test->getCondition4DeBarre1();
-                    $repose[0]['bar2']['point'] = $test->getPoints1DeBarre2();
-                }
-                break;
-            case '+++':
-                if ($data == "+++") {
-                    $repose[0]['bar1']['point'] = $test->getPoints4DeBarre1();
-                    $repose[0]['bar1']['condition'] = $test->getCondition4DeBarre1();
-                    $repose[0]['bar2']['point'] = $test->getPoints1DeBarre2();
-                }
-                break;
-            case 'Compte : 4':
-                if ($data == 4) {
-                    $repose[0]['bar1']['point'] = $test->getPoints4DeBarre1();
-                    $repose[0]['bar1']['condition'] = $test->getCondition4DeBarre1();
-                    $repose[0]['bar2']['point'] = $test->getPoints1DeBarre2();
-                }
-                break;
-            case 'Compte >= 3':
-                if ($data >= 3) {
-                    $repose[0]['bar1']['point'] = $test->getPoints4DeBarre1();
-                    $repose[0]['bar1']['condition'] = $test->getCondition4DeBarre1();
-                    $repose[0]['bar2']['point'] = $test->getPoints1DeBarre2();
-                }
-                break;
-            case 'Yes + Grade 3':
-                if ($data == "Yes" || $data == 'Yes + Grade 4' || $data == 'yes + grade 4' || $data == 'Grade 4' || $data == 'grade 4') {
-                    $repose[0]['bar1']['point'] = $test->getPoints4DeBarre1();
-                    $repose[0]['bar1']['condition'] = $test->getCondition4DeBarre1();
-                    $repose[0]['bar2']['point'] = $test->getPoints1DeBarre2();
-                }
-                break;
-        }
-        switch ($test->getCondition5DeBarre1()) {
-            case "":
-                break;
-            case '>10':
-                if ($data > 10) {
-                    $repose[0]['bar1']['point'] = $test->getPoints5DeBarre1();
-                    $repose[0]['bar1']['condition'] = $test->getCondition5DeBarre1();
-                    $repose[0]['bar2']['point'] = $test->getPoints1DeBarre2();
-                }
-                break;
-            case '>71°':
-                if ($data > 71) {
-                    $repose[0]['bar1']['point'] = $test->getPoints5DeBarre1();
-                    $repose[0]['bar1']['condition'] = $test->getCondition5DeBarre1();
-                    $repose[0]['bar2']['point'] = $test->getPoints1DeBarre2();
-                }
-                break;
-            case '>=6,5':
-                if (floatval($data) >= floatval('6,5')) {
-                    $repose[0]['bar1']['point'] = $test->getPoints5DeBarre1();
-                    $repose[0]['bar1']['condition'] = $test->getCondition5DeBarre1();
-                    $repose[0]['bar2']['point'] = $test->getPoints1DeBarre2();
-                }
-                break;
-            case '+++':
-                if ($data == "+++") {
-                    $repose[0]['bar1']['point'] = $test->getPoints4DeBarre1();
-                    $repose[0]['bar1']['condition'] = $test->getCondition4DeBarre1();
-                    $repose[0]['bar2']['point'] = $test->getPoints1DeBarre2();
-                }
-                break;
-            case 'Compte : 5':
-                if ($data == 5) {
-                    $repose[0]['bar1']['point'] = $test->getPoints5DeBarre1();
-                    $repose[0]['bar1']['condition'] = $test->getCondition5DeBarre1();
-                    $repose[0]['bar2']['point'] = $test->getPoints1DeBarre2();
-                }
-                break;
-            case 'Compte >= 3':
-                if ($data >= 3) {
-                    $repose[0]['bar1']['point'] = $test->getPoints5DeBarre1();
-                    $repose[0]['bar1']['condition'] = $test->getCondition5DeBarre1();
-                    $repose[0]['bar2']['point'] = $test->getPoints1DeBarre2();
-                }
-                break;
-            case 'Yes + Grade 3':
-                if ($data == "Yes" || $data == 'Yes + Grade 4' || $data == 'yes + grade 4' || $data == 'Grade 4' || $data == 'grade 4') {
-                    $repose[0]['bar1']['point'] = $test->getPoints5DeBarre1();
-                    $repose[0]['bar1']['condition'] = $test->getCondition5DeBarre1();
-                    $repose[0]['bar2']['point'] = $test->getPoints1DeBarre2();
-                }
-                break;
-        }
-        switch ($test->getCondition6DeBarre1()) {
-            case "":
-                break;
-            case 'Compte >= 6':
-                if ($data >= 6) {
-                    $repose[0]['bar1']['point'] = $test->getPoints6DeBarre1();
-                    $repose[0]['bar1']['condition'] = $test->getCondition6DeBarre1();
-                    $repose[0]['bar2']['point'] = $test->getPoints1DeBarre2();
-                    $repose[0]['Marker1']['point'] = $test->getPoints1DeMarkersSpcifiques1();
-
-                }
-                break;
-        }
+        $repose = $this->condition4ForBarre1($test, $data, $repose);
 
         // end
-
         switch ($test->getCondition2DeBarre2()) {
             case "":
                 break;
@@ -719,228 +275,8 @@ class ApiController extends AbstractController
 
 
         }
-
-
         // swotch for chack all condition for MarkerSpcifiques1
-        switch ($test->getCondition2DeMarkersSpcifiques1()) {
-            case 'A+ ou A-':
-                if (strtolower($data) == "a+" || strtolower($data) == "a-") {
-                    $repose[0]['Marker1']['point'] = $test->getPoints2DeMarkersSpcifiques1();
-                }
-                break;
-            case '++':
-                if ($data == "++") {
-                    $repose[0]['Marker1']['point'] = $test->getPoints2DeMarkersSpcifiques1();
-                    $repose[0]['Marker1']['condition'] = $test->getCondition2DeMarkersSpcifiques1();
-                }
-                break;
-            case '2':
-            case 'Compte : 2':
-                if ($data == 2) {
-                    $repose[0]['Marker1']['point'] = $test->getPoints2DeMarkersSpcifiques1();
-                    $repose[0]['Marker1']['condition'] = $test->getCondition2DeMarkersSpcifiques1();
-                }
-                break;
-            case 'Si "Varus or valgus malalignment" = Yes':
-                if ($data == "yes" || $data == "Yes") {
-                    $repose[0]['Marker1']['point'] = $test->getPoints2DeMarkersSpcifiques1();
-                    $repose[0]['Marker1']['condition'] = $test->getCondition2DeMarkersSpcifiques1();
-                }
-                break;
-            case 'Yes + Grade 2':
-                if ($data == "Yes + Grade 2" || $data == "yes + Grade 2" || strtolower($data) == 'grade 2') {
-                    $repose[0]['Marker1']['point'] = $test->getPoints2DeMarkersSpcifiques1();
-                    $repose[0]['Marker1']['condition'] = $test->getCondition2DeMarkersSpcifiques1();
-                }
-                break;
-            case 'Yes + Grade 3':
-                if ($data == "Yes + Grade 3" || $data == "yes + Grade 3" || strtolower($data) == 'grade 3') {
-                    $repose[0]['Marker1']['point'] = $test->getPoints2DeMarkersSpcifiques1();
-                    $repose[0]['Marker1']['condition'] = $test->getCondition2DeMarkersSpcifiques1();
-                }
-                break;
-            case '>40°':
-                if ($data > 40) {
-                    $repose[0]['Marker1']['point'] = $test->getPoints2DeMarkersSpcifiques1();
-                    $repose[0]['Marker1']['condition'] = $test->getCondition2DeMarkersSpcifiques1();
-                }
-                break;
-            case '>=61° - 71° <=':
-                if ($data >= 61 && $data <= 71) {
-                    $repose[0]['Marker1']['point'] = $test->getPoints2DeMarkersSpcifiques1();
-                    $repose[0]['Marker1']['condition'] = $test->getCondition2DeMarkersSpcifiques1();
-                }
-                break;
-            case '>=5 <6':
-                if ($data >= 5 && $data < 6) {
-                    $repose[0]['Marker1']['point'] = $test->getPoints2DeMarkersSpcifiques1();
-                    $repose[0]['Marker1']['condition'] = $test->getCondition2DeMarkersSpcifiques1();
-                }
-                break;
-            case '>=16,8 - 17,6=<':
-                if (floatval($data) >= floatval("16,8") && floatval($data) <= floatval("17,6")) {
-                    $repose[0]['Marker1']['point'] = $test->getPoints2DeMarkersSpcifiques1();
-                    $repose[0]['Marker1']['condition'] = $test->getCondition2DeMarkersSpcifiques1();
-                }
-                break;
-            case '>=18,7 - 22,4=<':
-                if (floatval($data) >= floatval("18,7") && floatval($data) <= floatval("22,4")) {
-                    $repose[0]['Marker1']['point'] = $test->getPoints2DeMarkersSpcifiques1();
-                    $repose[0]['Marker1']['condition'] = $test->getCondition2DeMarkersSpcifiques1();
-                }
-                break;
-            case '> 10,5 - 11,5 =<':
-                if (floatval($data) >= floatval("10,5") && floatval($data) <= floatval("11,5")) {
-                    $repose[0]['Marker1']['point'] = $test->getPoints2DeMarkersSpcifiques1();
-                    $repose[0]['Marker1']['condition'] = $test->getCondition2DeMarkersSpcifiques1();
-                }
-                break;
-            case '> 11,5 - 12,5 =<':
-                if (floatval($data) >= floatval("11,5") && floatval($data) <= floatval("12,5")) {
-                    $repose[0]['Marker1']['point'] = $test->getPoints2DeMarkersSpcifiques1();
-                }
-                break;
-            case '<':
-                if ($data < $test->getThresholdMax()) {
-                    $repose[0]['Marker1']['point'] = $test->getPoints2DeMarkersSpcifiques1();
-                    $repose[0]['Marker1']['condition'] = $test->getCondition2DeMarkersSpcifiques1();
-                }
-                break;
-            case 'IV°':
-                if ($data == "IV") {
-                    $repose[0]['Marker1']['point'] = $test->getPoints2DeMarkersSpcifiques1();
-                    $repose[0]['Marker1']['condition'] = $test->getCondition2DeMarkersSpcifiques1();
-                }
-                break;
-
-        }
-        switch ($test->getCondition3DeMarkersSpcifiques1()) {
-            case '+++':
-                if ($data == "+++") {
-                    $repose[0]['Marker1']['point'] = $test->getPoints3DeMarkersSpcifiques1();
-                    $repose[0]['Marker1']['condition'] = $test->getCondition3DeMarkersSpcifiques1();
-                }
-                break;
-            case 'Compte : 3':
-                if ($data == 3) {
-                    $repose[0]['Marker1']['point'] = $test->getPoints3DeMarkersSpcifiques1();
-                    $repose[0]['Marker1']['condition'] = $test->getCondition3DeMarkersSpcifiques1();
-
-                }
-                break;
-            case 'Yes + Grade 3':
-                if ($data == "Yes + Grade 3" || $data == "yes + Grade 3" || strtolower($data) == 'grade 3') {
-                    $repose[0]['Marker1']['point'] = $test->getPoints3DeMarkersSpcifiques1();
-                    $repose[0]['Marker1']['condition'] = $test->getCondition3DeMarkersSpcifiques1();
-
-                }
-                break;
-            case '> = 3':
-            case 'Compte : >= 3':
-                if ($data >= 3) {
-                    $repose[0]['Marker1']['point'] = $test->getPoints3DeMarkersSpcifiques1();
-                    $repose[0]['Marker1']['condition'] = $test->getCondition3DeMarkersSpcifiques1();
-
-                }
-                break;
-            case '>71°':
-                if ($data > 71) {
-                    $repose[0]['Marker1']['point'] = $test->getPoints3DeMarkersSpcifiques1();
-                    $repose[0]['Marker1']['condition'] = $test->getCondition3DeMarkersSpcifiques1();
-
-                }
-                break;
-            case '>= 17,7 - 18,8 =<':
-                if (floatval($data) >= floatval("17,7") && floatval($data) <= floatval("18,8")) {
-                    $repose[0]['Marker1']['point'] = $test->getPoints3DeMarkersSpcifiques1();
-                    $repose[0]['Marker1']['condition'] = $test->getCondition3DeMarkersSpcifiques1();
-                }
-                break;
-            case '>= 22,5 - 23,4 =<':
-                if (floatval($data) >= floatval("22,5") && floatval($data) <= floatval("23,4")) {
-                    $repose[0]['Marker1']['point'] = $test->getPoints3DeMarkersSpcifiques1();
-                    $repose[0]['Marker1']['condition'] = $test->getCondition3DeMarkersSpcifiques1();
-                }
-                break;
-            case '> 11,5':
-                if (floatval($data) >= floatval("11,5")) {
-                    $repose[0]['Marker1']['point'] = $test->getPoints3DeMarkersSpcifiques1();
-                    $repose[0]['Marker1']['condition'] = $test->getCondition3DeMarkersSpcifiques1();
-
-                }
-                break;
-            case '> 12,5':
-                if (floatval($data) >= floatval("12,5")) {
-                    $repose[0]['Marker1']['point'] = $test->getPoints3DeMarkersSpcifiques1();
-                    $repose[0]['Marker1']['condition'] = $test->getCondition3DeMarkersSpcifiques1();
-
-                }
-                break;
-            case '>=4 <5':
-                if ($data >= 4 && $data < 5) {
-                    $repose[0]['Marker1']['point'] = $test->getPoints3DeMarkersSpcifiques1();
-                    $repose[0]['Marker1']['condition'] = $test->getCondition3DeMarkersSpcifiques1();
-
-                }
-                break;
-        }
-        switch ($test->getCondition4DeMarkersSpcifiques1()) {
-
-            case 'Compte : 4':
-                if ($data == 4) {
-                    $repose[0]['Marker1']['point'] = $test->getPoints4DeMarkersSpcifiques1();
-                    $repose[0]['Marker1']['condition'] = $test->getCondition4DeMarkersSpcifiques1();
-
-                }
-                break;
-
-            case '>=3 <4':
-                if ($data >= 3 && $data <= 4) {
-                    $repose[0]['Marker1']['point'] = $test->getPoints4DeMarkersSpcifiques1();
-                    $repose[0]['Marker1']['condition'] = $test->getCondition4DeMarkersSpcifiques1();
-
-                }
-                break;
-            case '>18,8':
-                if (floatval($data) >= floatval("18,8")) {
-                    $repose[0]['Marker1']['point'] = $test->getPoints4DeMarkersSpcifiques1();
-                    $repose[0]['Marker1']['condition'] = $test->getCondition4DeMarkersSpcifiques1();
-
-                }
-                break;
-            case '>23,4':
-                if (floatval($data) >= floatval("23,4")) {
-                    $repose[0]['Marker1']['point'] = $test->getPoints3DeMarkersSpcifiques1();
-                    $repose[0]['Marker1']['condition'] = $test->getCondition4DeMarkersSpcifiques1();
-
-                }
-                break;
-        }
-        switch ($test->getCondition5DeMarkersSpcifiques1()) {
-            case 'Compte : 5':
-                if ($data == 5) {
-                    $repose[0]['Marker1']['point'] = $test->getPoints5DeMarkersSpcifiques1();
-                    $repose[0]['Marker1']['condition'] = $test->getCondition5DeMarkersSpcifiques1();
-
-                }
-                break;
-            case '<3':
-                if ($data < 3) {
-                    $repose[0]['Marker1']['point'] = $test->getPoints5DeMarkersSpcifiques1();
-                    $repose[0]['Marker1']['condition'] = $test->getCondition5DeMarkersSpcifiques1();
-                }
-                break;
-        }
-        switch ($test->getCondition6DeMarkersSpcifiques1()) {
-            case 'Compte >= 6':
-                if ($data >= 6) {
-                    $repose[0]['Marker1']['point'] = $test->getPoints6DeMarkersSpcifiques1();
-                    $repose[0]['Marker1']['condition'] = $test->getCondition5DeMarkersSpcifiques1();
-                }
-                break;
-            default:
-                break;
-        }
+        $repose = $this->swotchForChackAllConditionForMarkerSpcifiques1($test, $data, $repose);
 
 // end
         return $repose;
@@ -1164,6 +500,7 @@ class ApiController extends AbstractController
      * @param Request $request
      * @return JsonResponse
      */
+    #[Route("/api/v1/ByTest", name: "app_test", methods: "POST")]
     final public function getOneTest(ManagerRegistry $doctrine, Request $request): JsonResponse
     {
         $nom = $request->request->get("Noms");
@@ -1172,26 +509,221 @@ class ApiController extends AbstractController
         $age = $request->request->get("age");
         $data = $request->request->get("data");
         $test = $doctrine->getRepository(TestDev::class)->findBy(array(
-            "noms" => $nom, "unitDeMesure" => array($Unit_de_mesure, ''), "sexe" => array($sexe, '')
+            "noms" => $nom, "unitDeMesure" => array($Unit_de_mesure,''), "sexe" => array($sexe,'')
         ));
-        foreach ($test as $key => $item) {
-            if ($item->getThresholdAgeMin() == 0 && $item->getThresholdAgeMmx() == 0) {
-                $testdev = $item;
-            }
-            if ($age >= $item->getThresholdAgeMin() && $age < $item->getThresholdAgeMmx()) {
-                $testdev = $item;
-            }
-            if ($item->getThresholdAgeMmx() == 0 && $age > $item->getThresholdAgeMin()) {
-                $testdev = $item;
-            }
-
-        }
-        $test = $testdev;
+        dump($test);
 
 
         // condition for Barre 1
+//        $repose = $this->conditionForBarre1($test, $data);
+//        switch ($test->getCondition2Barre1()) {
+//            case "":
+//                break;
+//            case '>10':
+//                if ($data > 10) {
+//                    $repose[0]['bar1']['point'] = $test->getPoints2Barre1();
+//                    $repose[0]['bar2']['point'] = $test->getPoints1DeBarre2();
+//                }
+//                break;
+//            case '>=6-6,4':
+//                if (floatval($data) >= floatval("6") && $data <= floatval("6.4")) {
+//                    $repose[0]['bar1']['point'] = $test->getPoints2Barre1();
+//                    $repose[0]['bar1']['condition'] = $test->getCondition2Barre1();
+//                    $repose[0]['bar2']['point'] = $test->getPoints1DeBarre2();
+//                }
+//                break;
+//            case '++':
+//                if ($data == "++") {
+//                    $repose[0]['bar1']['point'] = $test->getPoints2Barre1();
+//                    $repose[0]['bar1']['condition'] = $test->getCondition2Barre1();
+//                    $repose[0]['bar2']['point'] = $test->getPoints1DeBarre2();
+//                }
+//                break;
+//            case 'Compte : 2':
+//                if ($data == 2) {
+//                    $repose[0]['bar1']['point'] = $test->getPoints2Barre1();
+//                    $repose[0]['bar1']['condition'] = $test->getCondition2Barre1();
+//                    $repose[0]['bar2']['point'] = $test->getPoints1DeBarre2();
+//                }
+//                break;
+//            case 'Si "Varus or valgus malalignment" = Yes':
+//                if ($data == "Yes" || $data == 'yes') {
+//                    $repose[0]['bar1']['point'] = $test->getPoints2Barre1();
+//                    $repose[0]['bar1']['condition'] = $test->getCondition2Barre1();
+//                    $repose[0]['bar2']['point'] = $test->getPoints1DeBarre2();
+//                }
+//                break;
+//            case 'Yes + Grade 2':
+//                if ($data == "Yes" || $data == 'Yes + Grade 2' || $data == 'yes + grade 2' || $data == 'Grade 2' || $data == 'grade 2') {
+//                    $repose[0]['bar1']['point'] = $test->getPoints2Barre1();
+//                    $repose[0]['bar1']['condition'] = $test->getCondition2Barre1();
+//                    $repose[0]['bar2']['point'] = $test->getPoints1DeBarre2();
+//                }
+//                break;
+//            case '>40°':
+//                if ($data > 40) {
+//                    $repose[0]['bar1']['point'] = $test->getPoints2Barre1();
+//                    $repose[0]['bar1']['condition'] = $test->getCondition2Barre1();
+//                    $repose[0]['bar2']['point'] = $test->getPoints1DeBarre2();
+//                }
+//                break;
+//            case '>=61° - 71° <=':
+//                if ($data >= 61 && $data <= 71) {
+//                    $repose[0]['bar1']['point'] = $test->getPoints2Barre1();
+//                    $repose[0]['bar1']['condition'] = $test->getCondition2Barre1();
+//                    $repose[0]['bar2']['point'] = $test->getPoints1DeBarre2();
+//                }
+//                break;
+//            case 'IV°':
+//                if ($data == 'IV') {
+//                    $repose[0]['bar1']['point'] = $test->getPoints2Barre1();
+//                    $repose[0]['bar1']['condition'] = $test->getCondition2Barre1();
+//                    $repose[0]['bar2']['point'] = $test->getPoints1DeBarre2();
+//                }
+//                break;
+//
+//        }
+//        switch ($test->getCondition3DeBarre1()) {
+//            case "":
+//                break;
+//            case '>10':
+//                if ($data > 10) {
+//                    $repose[0]['bar1']['point'] = $test->getPoints3DeBarre1();
+//                    $repose[0]['bar1']['condition'] = $test->getCondition3DeBarre1();
+//                    $repose[0]['bar2']['point'] = $test->getPoints1DeBarre2();
+//                }
+//                break;
+//            case '>71°':
+//                if ($data > 71) {
+//                    $repose[0]['bar1']['point'] = $test->getPoints3DeBarre1();
+//                    $repose[0]['bar1']['condition'] = $test->getCondition3DeBarre1();
+//                    $repose[0]['bar2']['point'] = $test->getPoints1DeBarre2();
+//                }
+//                break;
+//            case '>=6,5':
+//                if (floatval($data) >= floatval('6.5')) {
+//                    $repose[0]['bar1']['point'] = $test->getPoints3DeBarre1();
+//                    $repose[0]['bar1']['condition'] = $test->getCondition3DeBarre1();
+//                    $repose[0]['bar2']['point'] = $test->getPoints1DeBarre2();
+//                }
+//                break;
+//            case '+++':
+//                if ($data == "+++") {
+//                    $repose[0]['bar1']['point'] = $test->getPoints3DeBarre1();
+//                    $repose[0]['bar1']['condition'] = $test->getCondition3DeBarre1();
+//                    $repose[0]['bar2']['point'] = $test->getPoints1DeBarre2();
+//                }
+//                break;
+//            case 'Compte : 3':
+//                if ($data == 3) {
+//                    $repose[0]['bar1']['point'] = $test->getPoints3DeBarre1();
+//                    $repose[0]['bar1']['condition'] = $test->getCondition3DeBarre1();
+//                    $repose[0]['bar2']['point'] = $test->getPoints1DeBarre2();
+//                }
+//                break;
+//            case 'Compte >= 3':
+//                if ($data >= 3) {
+//                    $repose[0]['bar1']['point'] = $test->getPoints3DeBarre1();
+//                    $repose[0]['bar1']['condition'] = $test->getCondition3DeBarre1();
+//                    $repose[0]['bar2']['point'] = $test->getPoints1DeBarre2();
+//                }
+//                break;
+//            case 'Yes + Grade 3':
+//                if ($data == "Yes" || $data == 'Yes + Grade 3' || $data == 'yes + grade 3' || $data == 'Grade 3' || $data == 'grade 3') {
+//                    $repose[0]['bar1']['point'] = $test->getPoints3DeBarre1();
+//                    $repose[0]['bar1']['condition'] = $test->getCondition3DeBarre1();
+//                    $repose[0]['bar2']['point'] = $test->getPoints1DeBarre2();
+//                }
+//                break;
+//        }
+//        $repose = $this->condition4ForBarre1($test, $data, $repose);
+//        // end
+//        switch ($test->getCondition2DeBarre2()) {
+//            case "":
+//                break;
+//            case '>=6-6,4':
+//                if (floatval($data) >= floatval("6") && $data <= floatval("6.4")) {
+//                    $repose[0]['bar2']['condition'] = $test->getCondition2DeBarre2();
+//                    $repose[0]['bar2']['point'] = $test->getPoints2DeBarre2();
+//                }
+//                break;
+//            case 'Si clinic + imaging ou injection = Yes':
+//                if (strtolower($data) == 'yes') {
+//                    $repose[0]['bar2']['condition'] = $test->getCondition2DeBarre2();
+//                    $repose[0]['bar2']['point'] = $test->getPoints2DeBarre2();
+//                }
+//                break;
+//            case 'Yes + Grade 2':
+//                if ($data == "Yes" || $data == 'Yes + Grade 2' || $data == 'yes + grade 2' || $data == 'Grade 2' || $data == 'grade 2') {
+//                    $repose[0]['bar2']['condition'] = $test->getCondition2DeBarre2();
+//                    $repose[0]['bar2']['point'] = $test->getPoints2DeBarre2();
+//                }
+//                break;
+//            case '> 200':
+//                if ($data > 200) {
+//                    $repose[0]['bar2']['condition'] = $test->getCondition2DeBarre2();
+//                    $repose[0]['bar2']['point'] = $test->getPoints2DeBarre2();
+//                }
+//                break;
+//            case '> 11,1':
+//                if (floatval($data) > floatval("11.1")) {
+//                    $repose[0]['bar2']['condition'] = $test->getCondition2DeBarre2();
+//                    $repose[0]['bar2']['point'] = $test->getPoints2DeBarre2();
+//                }
+//                break;
+//            case '> 3':
+//                if (floatval($data) > floatval("3")) {
+//                    $repose[0]['bar2']['condition'] = $test->getCondition2DeBarre2();
+//                    $repose[0]['bar2']['point'] = $test->getPoints2DeBarre2();
+//                }
+//                break;
+//
+//
+//        }
+//        switch ($test->getCondition3DeBarre2()) {
+//            case "":
+//                break;
+//
+//            case '>=6,5':
+//                if (floatval($data) >= floatval("6.5")) {
+//                    $repose[0]['bar2']['condition'] = $test->getCondition3DeBarre2();
+//                    $repose[0]['bar2']['point'] = $test->getPoints3DeBarre2();
+//                }
+//                break;
+//            case 'Si clinic + imaging + (Acide ialuronique ou PRP ou Stem cells ou cortisone) = Yes':
+//                if (strtolower($data) == 'yes') {
+//                    $repose[0]['bar2']['condition'] = $test->getCondition3DeBarre2();
+//                    $repose[0]['bar2']['point'] = $test->getPoints3DeBarre2();
+//                }
+//                break;
+//            case 'Yes + Grade 2':
+//                if ($data == "Yes" || $data == 'Yes + Grade 2' || $data == 'yes + grade 2' || $data == 'Grade 2' || $data == 'grade 2') {
+//                    $repose[0]['bar2']['condition'] = $test->getCondition3DeBarre2();
+//                    $repose[0]['bar2']['point'] = $test->getPoints3DeBarre2();
+//                }
+//                break;
+//
+//
+//        }
+//        // swotch for chack all condition for MarkerSpcifiques1
+//        $repose = $this->swotchForChackAllConditionForMarkerSpcifiques1($test, $data, $repose);
+// end
+        // $repose = floatval($data);
+
+        return  $this->json($test);
+    }
+
+    /**
+     * @param TestDev $test
+     * @param float|bool|int|string|null $data
+     * @return array
+     */
+    public function conditionForBarre1(TESTDev $test, float|bool|int|string|null $data): array
+    {
         switch ($test->getCondition1()) {
             case "":
+            case null:
+            case '':
                 $repose = $this->getArr($test, $data);
                 break;
             case "< ou >":
@@ -1209,14 +741,18 @@ class ApiController extends AbstractController
                 }
                 break;
             case '>' :
-                if (floatval($data) > floatval($test->getThresholdMin()) && floatval($data) > floatval($test->getThresholdMax())) {
+                if (floatval($data) > floatval($test->getThresholdMin()) && floatval($data) > floatval(
+                        $test->getThresholdMax()
+                    )) {
                     $repose = $this->getArr($test, $data);
                 } else {
                     $repose = $this->getFalArr($test, $data);
                 }
                 break;
             case '<':
-                if (floatval($data) < floatval($test->getThresholdMin()) && floatval($data) < floatval($test->getThresholdMax())) {
+                if (floatval($data) < floatval($test->getThresholdMin()) && floatval($data) < floatval(
+                        $test->getThresholdMax()
+                    )) {
                     $repose = $this->getArr($test, $data);
                 } else {
                     $repose = $this->getFalArr($test, $data);
@@ -1518,128 +1054,18 @@ class ApiController extends AbstractController
                     $repose = $this->getFalArr($test, $data);
                 }
                 break;
+        }
+        return $repose;
+    }
 
-        }
-        switch ($test->getCondition2Barre1()) {
-            case "":
-                break;
-            case '>10':
-                if ($data > 10) {
-                    $repose[0]['bar1']['point'] = $test->getPoints2Barre1();
-                    $repose[0]['bar2']['point'] = $test->getPoints1DeBarre2();
-                }
-                break;
-            case '>=6-6,4':
-                if (floatval($data) >= floatval("6") && $data <= floatval("6.4")) {
-                    $repose[0]['bar1']['point'] = $test->getPoints2Barre1();
-                    $repose[0]['bar1']['condition'] = $test->getCondition2Barre1();
-                    $repose[0]['bar2']['point'] = $test->getPoints1DeBarre2();
-                }
-                break;
-            case '++':
-                if ($data == "++") {
-                    $repose[0]['bar1']['point'] = $test->getPoints2Barre1();
-                    $repose[0]['bar1']['condition'] = $test->getCondition2Barre1();
-                    $repose[0]['bar2']['point'] = $test->getPoints1DeBarre2();
-                }
-                break;
-            case 'Compte : 2':
-                if ($data == 2) {
-                    $repose[0]['bar1']['point'] = $test->getPoints2Barre1();
-                    $repose[0]['bar1']['condition'] = $test->getCondition2Barre1();
-                    $repose[0]['bar2']['point'] = $test->getPoints1DeBarre2();
-                }
-                break;
-            case 'Si "Varus or valgus malalignment" = Yes':
-                if ($data == "Yes" || $data == 'yes') {
-                    $repose[0]['bar1']['point'] = $test->getPoints2Barre1();
-                    $repose[0]['bar1']['condition'] = $test->getCondition2Barre1();
-                    $repose[0]['bar2']['point'] = $test->getPoints1DeBarre2();
-                }
-                break;
-            case 'Yes + Grade 2':
-                if ($data == "Yes" || $data == 'Yes + Grade 2' || $data == 'yes + grade 2' || $data == 'Grade 2' || $data == 'grade 2') {
-                    $repose[0]['bar1']['point'] = $test->getPoints2Barre1();
-                    $repose[0]['bar1']['condition'] = $test->getCondition2Barre1();
-                    $repose[0]['bar2']['point'] = $test->getPoints1DeBarre2();
-                }
-                break;
-            case '>40°':
-                if ($data > 40) {
-                    $repose[0]['bar1']['point'] = $test->getPoints2Barre1();
-                    $repose[0]['bar1']['condition'] = $test->getCondition2Barre1();
-                    $repose[0]['bar2']['point'] = $test->getPoints1DeBarre2();
-                }
-                break;
-            case '>=61° - 71° <=':
-                if ($data >= 61 && $data <= 71) {
-                    $repose[0]['bar1']['point'] = $test->getPoints2Barre1();
-                    $repose[0]['bar1']['condition'] = $test->getCondition2Barre1();
-                    $repose[0]['bar2']['point'] = $test->getPoints1DeBarre2();
-                }
-                break;
-            case 'IV°':
-                if ($data == 'IV') {
-                    $repose[0]['bar1']['point'] = $test->getPoints2Barre1();
-                    $repose[0]['bar1']['condition'] = $test->getCondition2Barre1();
-                    $repose[0]['bar2']['point'] = $test->getPoints1DeBarre2();
-                }
-                break;
-
-        }
-        switch ($test->getCondition3DeBarre1()) {
-            case "":
-                break;
-            case '>10':
-                if ($data > 10) {
-                    $repose[0]['bar1']['point'] = $test->getPoints3DeBarre1();
-                    $repose[0]['bar1']['condition'] = $test->getCondition3DeBarre1();
-                    $repose[0]['bar2']['point'] = $test->getPoints1DeBarre2();
-                }
-                break;
-            case '>71°':
-                if ($data > 71) {
-                    $repose[0]['bar1']['point'] = $test->getPoints3DeBarre1();
-                    $repose[0]['bar1']['condition'] = $test->getCondition3DeBarre1();
-                    $repose[0]['bar2']['point'] = $test->getPoints1DeBarre2();
-                }
-                break;
-            case '>=6,5':
-                if (floatval($data) >= floatval('6.5')) {
-                    $repose[0]['bar1']['point'] = $test->getPoints3DeBarre1();
-                    $repose[0]['bar1']['condition'] = $test->getCondition3DeBarre1();
-                    $repose[0]['bar2']['point'] = $test->getPoints1DeBarre2();
-                }
-                break;
-            case '+++':
-                if ($data == "+++") {
-                    $repose[0]['bar1']['point'] = $test->getPoints3DeBarre1();
-                    $repose[0]['bar1']['condition'] = $test->getCondition3DeBarre1();
-                    $repose[0]['bar2']['point'] = $test->getPoints1DeBarre2();
-                }
-                break;
-            case 'Compte : 3':
-                if ($data == 3) {
-                    $repose[0]['bar1']['point'] = $test->getPoints3DeBarre1();
-                    $repose[0]['bar1']['condition'] = $test->getCondition3DeBarre1();
-                    $repose[0]['bar2']['point'] = $test->getPoints1DeBarre2();
-                }
-                break;
-            case 'Compte >= 3':
-                if ($data >= 3) {
-                    $repose[0]['bar1']['point'] = $test->getPoints3DeBarre1();
-                    $repose[0]['bar1']['condition'] = $test->getCondition3DeBarre1();
-                    $repose[0]['bar2']['point'] = $test->getPoints1DeBarre2();
-                }
-                break;
-            case 'Yes + Grade 3':
-                if ($data == "Yes" || $data == 'Yes + Grade 3' || $data == 'yes + grade 3' || $data == 'Grade 3' || $data == 'grade 3') {
-                    $repose[0]['bar1']['point'] = $test->getPoints3DeBarre1();
-                    $repose[0]['bar1']['condition'] = $test->getCondition3DeBarre1();
-                    $repose[0]['bar2']['point'] = $test->getPoints1DeBarre2();
-                }
-                break;
-        }
+    /**
+     * @param mixed $test
+     * @param float|bool|int|string|null $data
+     * @param array $repose
+     * @return array
+     */
+    public function condition4ForBarre1(mixed $test, float|bool|int|string|null $data, array $repose): array
+    {
         switch ($test->getCondition4DeBarre1()) {
             case "":
                 break;
@@ -1755,83 +1181,24 @@ class ApiController extends AbstractController
                     $repose[0]['bar1']['condition'] = $test->getCondition6DeBarre1();
                     $repose[0]['bar2']['point'] = $test->getPoints1DeBarre2();
                     $repose[0]['Marker1']['point'] = $test->getPoints1DeMarkersSpcifiques1();
-
                 }
                 break;
         }
+        return $repose;
+    }
 
-        // end
-
-        switch ($test->getCondition2DeBarre2()) {
-            case "":
-                break;
-            case '>=6-6,4':
-                if (floatval($data) >= floatval("6") && $data <= floatval("6.4")) {
-                    $repose[0]['bar2']['condition'] = $test->getCondition2DeBarre2();
-                    $repose[0]['bar2']['point'] = $test->getPoints2DeBarre2();
-                }
-                break;
-            case 'Si clinic + imaging ou injection = Yes':
-                if (strtolower($data) == 'yes') {
-                    $repose[0]['bar2']['condition'] = $test->getCondition2DeBarre2();
-                    $repose[0]['bar2']['point'] = $test->getPoints2DeBarre2();
-                }
-                break;
-            case 'Yes + Grade 2':
-                if ($data == "Yes" || $data == 'Yes + Grade 2' || $data == 'yes + grade 2' || $data == 'Grade 2' || $data == 'grade 2') {
-                    $repose[0]['bar2']['condition'] = $test->getCondition2DeBarre2();
-                    $repose[0]['bar2']['point'] = $test->getPoints2DeBarre2();
-                }
-                break;
-            case '> 200':
-                if ($data > 200) {
-                    $repose[0]['bar2']['condition'] = $test->getCondition2DeBarre2();
-                    $repose[0]['bar2']['point'] = $test->getPoints2DeBarre2();
-                }
-                break;
-            case '> 11,1':
-                if (floatval($data) > floatval("11.1")) {
-                    $repose[0]['bar2']['condition'] = $test->getCondition2DeBarre2();
-                    $repose[0]['bar2']['point'] = $test->getPoints2DeBarre2();
-                }
-                break;
-            case '> 3':
-                if (floatval($data) > floatval("3")) {
-                    $repose[0]['bar2']['condition'] = $test->getCondition2DeBarre2();
-                    $repose[0]['bar2']['point'] = $test->getPoints2DeBarre2();
-                }
-                break;
-
-
-        }
-        switch ($test->getCondition3DeBarre2()) {
-            case "":
-                break;
-
-            case '>=6,5':
-                if (floatval($data) >= floatval("6.5")) {
-                    $repose[0]['bar2']['condition'] = $test->getCondition3DeBarre2();
-                    $repose[0]['bar2']['point'] = $test->getPoints3DeBarre2();
-                }
-                break;
-            case 'Si clinic + imaging + (Acide ialuronique ou PRP ou Stem cells ou cortisone) = Yes':
-                if (strtolower($data) == 'yes') {
-                    $repose[0]['bar2']['condition'] = $test->getCondition3DeBarre2();
-                    $repose[0]['bar2']['point'] = $test->getPoints3DeBarre2();
-                }
-                break;
-            case 'Yes + Grade 2':
-                if ($data == "Yes" || $data == 'Yes + Grade 2' || $data == 'yes + grade 2' || $data == 'Grade 2' || $data == 'grade 2') {
-                    $repose[0]['bar2']['condition'] = $test->getCondition3DeBarre2();
-                    $repose[0]['bar2']['point'] = $test->getPoints3DeBarre2();
-                }
-                break;
-
-
-        }
-
-
-        // swotch for chack all condition for MarkerSpcifiques1
+    /**
+     * @param mixed $test
+     * @param float|bool|int|string|null $data
+     * @param array $repose
+     * @return array
+     */
+    public function swotchForChackAllConditionForMarkerSpcifiques1(
+        mixed $test,
+        float|bool|int|string|null $data,
+        array $repose
+    ): array
+    {
         switch ($test->getCondition2DeMarkersSpcifiques1()) {
             case 'A+ ou A-':
                 if (strtolower($data) == "a+" || strtolower($data) == "a-") {
@@ -1922,7 +1289,6 @@ class ApiController extends AbstractController
                     $repose[0]['Marker1']['condition'] = $test->getCondition2DeMarkersSpcifiques1();
                 }
                 break;
-
         }
         switch ($test->getCondition3DeMarkersSpcifiques1()) {
             case '+++':
@@ -1935,14 +1301,12 @@ class ApiController extends AbstractController
                 if ($data == 3) {
                     $repose[0]['Marker1']['point'] = $test->getPoints3DeMarkersSpcifiques1();
                     $repose[0]['Marker1']['condition'] = $test->getCondition3DeMarkersSpcifiques1();
-
                 }
                 break;
             case 'Yes + Grade 3':
                 if ($data == "Yes + Grade 3" || $data == "yes + Grade 3" || strtolower($data) == 'grade 3') {
                     $repose[0]['Marker1']['point'] = $test->getPoints3DeMarkersSpcifiques1();
                     $repose[0]['Marker1']['condition'] = $test->getCondition3DeMarkersSpcifiques1();
-
                 }
                 break;
             case '> = 3':
@@ -1950,14 +1314,12 @@ class ApiController extends AbstractController
                 if ($data >= 3) {
                     $repose[0]['Marker1']['point'] = $test->getPoints3DeMarkersSpcifiques1();
                     $repose[0]['Marker1']['condition'] = $test->getCondition3DeMarkersSpcifiques1();
-
                 }
                 break;
             case '>71°':
                 if ($data > 71) {
                     $repose[0]['Marker1']['point'] = $test->getPoints3DeMarkersSpcifiques1();
                     $repose[0]['Marker1']['condition'] = $test->getCondition3DeMarkersSpcifiques1();
-
                 }
                 break;
             case '>= 17,7 - 18,8 =<':
@@ -1976,31 +1338,26 @@ class ApiController extends AbstractController
                 if (floatval($data) >= floatval("11,5")) {
                     $repose[0]['Marker1']['point'] = $test->getPoints3DeMarkersSpcifiques1();
                     $repose[0]['Marker1']['condition'] = $test->getCondition3DeMarkersSpcifiques1();
-
                 }
                 break;
             case '> 12,5':
                 if (floatval($data) >= floatval("12,5")) {
                     $repose[0]['Marker1']['point'] = $test->getPoints3DeMarkersSpcifiques1();
                     $repose[0]['Marker1']['condition'] = $test->getCondition3DeMarkersSpcifiques1();
-
                 }
                 break;
             case '>=4 <5':
                 if ($data >= 4 && $data < 5) {
                     $repose[0]['Marker1']['point'] = $test->getPoints3DeMarkersSpcifiques1();
                     $repose[0]['Marker1']['condition'] = $test->getCondition3DeMarkersSpcifiques1();
-
                 }
                 break;
         }
         switch ($test->getCondition4DeMarkersSpcifiques1()) {
-
             case 'Compte : 4':
                 if ($data == 4) {
                     $repose[0]['Marker1']['point'] = $test->getPoints4DeMarkersSpcifiques1();
                     $repose[0]['Marker1']['condition'] = $test->getCondition4DeMarkersSpcifiques1();
-
                 }
                 break;
 
@@ -2008,21 +1365,18 @@ class ApiController extends AbstractController
                 if ($data >= 3 && $data <= 4) {
                     $repose[0]['Marker1']['point'] = $test->getPoints4DeMarkersSpcifiques1();
                     $repose[0]['Marker1']['condition'] = $test->getCondition4DeMarkersSpcifiques1();
-
                 }
                 break;
             case '>18,8':
                 if (floatval($data) >= floatval("18,8")) {
                     $repose[0]['Marker1']['point'] = $test->getPoints4DeMarkersSpcifiques1();
                     $repose[0]['Marker1']['condition'] = $test->getCondition4DeMarkersSpcifiques1();
-
                 }
                 break;
             case '>23,4':
                 if (floatval($data) >= floatval("23,4")) {
                     $repose[0]['Marker1']['point'] = $test->getPoints3DeMarkersSpcifiques1();
                     $repose[0]['Marker1']['condition'] = $test->getCondition4DeMarkersSpcifiques1();
-
                 }
                 break;
         }
@@ -2031,7 +1385,6 @@ class ApiController extends AbstractController
                 if ($data == 5) {
                     $repose[0]['Marker1']['point'] = $test->getPoints5DeMarkersSpcifiques1();
                     $repose[0]['Marker1']['condition'] = $test->getCondition5DeMarkersSpcifiques1();
-
                 }
                 break;
             case '<3':
@@ -2051,12 +1404,7 @@ class ApiController extends AbstractController
             default:
                 break;
         }
-
-// end
-
-        // $repose = floatval($data);
-
-        return $this->json($repose);
+        return $repose;
     }
 
 }
