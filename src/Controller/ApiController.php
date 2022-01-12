@@ -492,7 +492,7 @@ class ApiController extends AbstractController
                     $repose['bar2']['point'] = $test->getPoints1DeBarre2();
                 }
                 break;
-            case 'Si "Varus or valgus malalignment" = Yes':
+            case 'Si "git Varus or valgus malalignment" = Yes':
                 if ($data == "Yes" || $data == 'yes') {
                     foreach ($objdata as $x => $val) {
                         if ($val['Noms'] === 'Varus or valgus malalignment') {
