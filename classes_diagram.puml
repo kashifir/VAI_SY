@@ -1,0 +1,18 @@
+@startuml
+
+class ArrayList {
+Object[] elementData
+size()
+}
+
+package "TestDev" #FFF{
+
+}
+
+enum TimeUnit {
+DAYS
+HOURS
+MINUTES
+}
+
+@enduml

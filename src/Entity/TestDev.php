@@ -2,1819 +2,1530 @@
 
 namespace App\Entity;
 
-use App\Repository\TestDevRepository;
 use Doctrine\ORM\Mapping as ORM;
-use JetBrains\PhpStorm\Internal\TentativeType;
-
 
 /**
  * TestDev
  *
  * @ORM\Table(name="test_dev")
- * @ORM\Entity(repositoryClass=TestDevRepository::class)
+ * @ORM\Entity
  */
-class TestDev implements \Countable
-
+class TestDev
 {
     /**
-     * @var int|null
+     * @var int
      *
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private ?int $id;
+    private $id;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="Type_de_donne", type="string", length=100, nullable=true)
+     * @ORM\Column(name="Finalisation", type="string", length=2, nullable=true)
      */
-    private ?string $typeDeDonne;
+    private $finalisation;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="Module", type="string", length=100, nullable=true)
+     * @ORM\Column(name="Type_of_data", type="string", length=35, nullable=true)
      */
-    private ?string $module;
+    private $typeOfData;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="Commentaires__informations", type="text", length=65535, nullable=true)
+     * @ORM\Column(name="Module", type="string", length=28, nullable=true)
      */
-    private ?string $commentairesInformations;
+    private $module;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="Commentaires__informations_2", type="text", length=65535, nullable=true)
+     * @ORM\Column(name="Commentaires_informations", type="string", length=103, nullable=true)
      */
-    private ?string $commentairesInformations2;
+    private $commentairesInformations;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="Commentaires__informations_3", type="text", length=65535, nullable=true)
+     * @ORM\Column(name="Commentaires_informations_2", type="string", length=78, nullable=true)
      */
-    private ?string $commentairesInformations3;
+    private $commentairesInformations2;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="Noms", type="text", length=0, nullable=true)
+     * @ORM\Column(name="Commentaires_informations_3", type="string", length=118, nullable=true)
      */
-    private ?string $noms;
+    private $commentairesInformations3;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="Reference_SCTID", type="string", length=100, nullable=true)
+     * @ORM\Column(name="Noms_FR_EN_IT", type="string", length=113, nullable=true)
      */
-    private ?string $referenceSctid;
+    private $nomsFrEnIt;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="Detail", type="string", length=100, nullable=true)
+     * @ORM\Column(name="Noms", type="string", length=145, nullable=true)
      */
-    private ?string $detail;
+    private $noms;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="Data_category", type="string", length=100, nullable=true)
+     * @ORM\Column(name="Reference_SCTID", type="decimal", precision=26, scale=16, nullable=true)
      */
-    private ?string $dataCategory;
+    private $referenceSctid;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="Period_of_validity", type="string", length=100, nullable=true)
+     * @ORM\Column(name="Detail", type="string", length=24, nullable=true)
      */
-    private ?string $periodOfValidity;
+    private $detail;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="Invalidation_increment", type="string", length=100, nullable=true)
+     * @ORM\Column(name="Data_category", type="string", length=33, nullable=true)
      */
-    private ?string $invalidationIncrement;
+    private $dataCategory;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="Sexe", type="string", length=100, nullable=true)
+     * @ORM\Column(name="Period_of_validity", type="string", length=28, nullable=true)
      */
-    private ?string $sexe;
+    private $periodOfValidity;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="Invalidation_increment", type="string", length=17, nullable=true)
+     */
+    private $invalidationIncrement;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="Sexe", type="string", length=1, nullable=true)
+     */
+    private $sexe;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="threshold_age_min", type="string", length=5, nullable=true)
+     */
+    private $thresholdAgeMin = '0';
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="threshold_age_max", type="string", length=5, nullable=true)
+     */
+    private $thresholdAgeMax;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="Data_Format", type="string", length=10, nullable=true)
+     */
+    private $dataFormat;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="Unit_de_mesure", type="string", length=37, nullable=true)
+     */
+    private $unitDeMesure;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="threshold_min", type="string", length=31, nullable=true)
+     */
+    private $thresholdMin;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="threshold_max", type="string", length=27, nullable=true)
+     */
+    private $thresholdMax;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="condition1", type="string", length=17, nullable=true)
+     */
+    private $condition1;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="Barre", type="string", length=18, nullable=true)
+     */
+    private $barre;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="Points_1_de_Barre_1", type="string", length=45, nullable=true)
+     */
+    private $points1DeBarre1;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="Condition_2_de_Barre_1", type="string", length=39, nullable=true)
+     */
+    private $condition2DeBarre1;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="Points_2_de_Barre_1", type="decimal", precision=3, scale=1, nullable=true)
+     */
+    private $points2DeBarre1;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="Condition_3_de_Barre_1", type="string", length=13, nullable=true)
+     */
+    private $condition3DeBarre1;
 
     /**
      * @var int|null
      *
-     * @ORM\Column(name="threshold_age_min", type="integer", nullable=true)
+     * @ORM\Column(name="Points_3_de_Barre_1", type="integer", nullable=true)
      */
-    private ?int $thresholdAgeMin;
+    private $points3DeBarre1;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="Condition_4_de_Barre_1", type="string", length=10, nullable=true)
+     */
+    private $condition4DeBarre1;
 
     /**
      * @var int|null
      *
-     * @ORM\Column(name="threshold_age_mmx", type="integer", nullable=true)
+     * @ORM\Column(name="Points_4_de_Barre_1", type="integer", nullable=true)
      */
-    private ?int $thresholdAgeMmx;
+    private $points4DeBarre1;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="Data_Format", type="string", length=100, nullable=true)
+     * @ORM\Column(name="Condition_5_de_Barre_1", type="string", length=10, nullable=true)
      */
-    private ?string $dataFormat;
+    private $condition5DeBarre1;
+
+    /**
+     * @var int|null
+     *
+     * @ORM\Column(name="Points_5_de_Barre_1", type="integer", nullable=true)
+     */
+    private $points5DeBarre1;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="Unit_de_mesure", type="string", length=100, nullable=true)
+     * @ORM\Column(name="Condition_6_de_Barre_1", type="string", length=11, nullable=true)
      */
-    private ?string $unitDeMesure;
+    private $condition6DeBarre1;
+
+    /**
+     * @var int|null
+     *
+     * @ORM\Column(name="Points_6_de_Barre_1", type="integer", nullable=true)
+     */
+    private $points6DeBarre1;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="threshold_min", type="string", length=100, nullable=true)
+     * @ORM\Column(name="Barre_2", type="string", length=28, nullable=true)
      */
-    private ?string $thresholdMin;
+    private $barre2;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="threshold_max", type="string", length=100, nullable=true)
+     * @ORM\Column(name="Points_1_de_Barre_2", type="string", length=40, nullable=true)
      */
-    private ?string $thresholdMax;
+    private $points1DeBarre2;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="condition1", type="string", length=100, nullable=true)
+     * @ORM\Column(name="Condition_2_de_Barre_2", type="string", length=38, nullable=true)
      */
-    private ?string $condition1;
+    private $condition2DeBarre2;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="Barre", type="string", length=100, nullable=true)
+     * @ORM\Column(name="Points_2_de_Barre_2", type="string", length=38, nullable=true)
      */
-    private ?string $barre;
+    private $points2DeBarre2;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="Points_1_de_Barre_1", type="string", length=100, nullable=true)
+     * @ORM\Column(name="Condition_3_de_Barre_2", type="string", length=81, nullable=true)
      */
-    private ?string $points1DeBarre1;
+    private $condition3DeBarre2;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="condition2_Barre_1", type="string", length=100, nullable=true)
+     * @ORM\Column(name="Points_3_de_Barre_2", type="string", length=38, nullable=true)
      */
-    private ?string $condition2Barre1;
+    private $points3DeBarre2;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="Points2_Barre_1", type="string", length=100, nullable=true)
+     * @ORM\Column(name="Condition_4_de_Barre_2", type="string", length=15, nullable=true)
      */
-    private ?string $points2Barre1;
+    private $condition4DeBarre2;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="Condition_3_de_Barre_1", type="string", length=100, nullable=true)
+     * @ORM\Column(name="Points_4_de_Barre_2", type="decimal", precision=2, scale=1, nullable=true)
      */
-    private ?string $condition3DeBarre1;
+    private $points4DeBarre2;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="Points_3_de_Barre_1", type="string", length=100, nullable=true)
+     * @ORM\Column(name="Condition_5_de_Barre_2", type="string", length=4, nullable=true)
      */
-    private ?string $points3DeBarre1;
+    private $condition5DeBarre2;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="Condition_4_de_Barre_1", type="string", length=100, nullable=true)
+     * @ORM\Column(name="Points_5_de_Barre_2", type="decimal", precision=3, scale=2, nullable=true)
      */
-    private ?string $condition4DeBarre1;
+    private $points5DeBarre2;
+
+    /**
+     * @var int|null
+     *
+     * @ORM\Column(name="Condition_6_de_Barre_2", type="integer", nullable=true)
+     */
+    private $condition6DeBarre2;
+
+    /**
+     * @var int|null
+     *
+     * @ORM\Column(name="Points_6_de_Barre_2", type="integer", nullable=true)
+     */
+    private $points6DeBarre2;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="Points_4_de_Barre_1", type="string", length=100, nullable=true)
+     * @ORM\Column(name="Barre_3", type="string", length=56, nullable=true)
      */
-    private ?string $points4DeBarre1;
+    private $barre3;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="Condition_5_de_Barre_1", type="string", length=100, nullable=true)
+     * @ORM\Column(name="Condition_diff_rente_de_condition_1", type="string", length=3, nullable=true)
      */
-    private ?string $condition5DeBarre1;
+    private $conditionDiffRenteDeCondition1;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="Points_5_de_Barre_1", type="string", length=100, nullable=true)
+     * @ORM\Column(name="Condition_1bis_de_Barre_3", type="string", length=6, nullable=true)
      */
-    private ?string $points5DeBarre1;
+    private $condition1bisDeBarre3;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="Condition_6_de_Barre_1", type="string", length=100, nullable=true)
+     * @ORM\Column(name="Points_1_de_Barre_3", type="decimal", precision=3, scale=2, nullable=true)
      */
-    private ?string $condition6DeBarre1;
+    private $points1DeBarre3;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="Points_6_de_Barre_1", type="string", length=100, nullable=true)
+     * @ORM\Column(name="Condition_2_de_Barre_3", type="string", length=13, nullable=true)
      */
-    private ?string $points6DeBarre1;
+    private $condition2DeBarre3;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="Barre_2", type="string", length=100, nullable=true)
+     * @ORM\Column(name="Points_2_de_Barre_3", type="string", length=28, nullable=true)
      */
-    private ?string $barre2;
+    private $points2DeBarre3;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="Points_1_de_Barre_2", type="string", length=100, nullable=true)
+     * @ORM\Column(name="Condition_3_de_Barre_3", type="string", length=5, nullable=true)
      */
-    private ?string $points1DeBarre2;
+    private $condition3DeBarre3;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="Condition_2_de_Barre_2", type="string", length=100, nullable=true)
+     * @ORM\Column(name="Points_3_de_Barre_3", type="string", length=28, nullable=true)
      */
-    private ?string $condition2DeBarre2;
+    private $points3DeBarre3;
+
+    /**
+     * @var int|null
+     *
+     * @ORM\Column(name="Condition_4_de_Barre_3", type="integer", nullable=true)
+     */
+    private $condition4DeBarre3;
+
+    /**
+     * @var int|null
+     *
+     * @ORM\Column(name="Points_4_de_Barre_3", type="integer", nullable=true)
+     */
+    private $points4DeBarre3;
+
+    /**
+     * @var int|null
+     *
+     * @ORM\Column(name="Condition_5_de_Barre_3", type="integer", nullable=true)
+     */
+    private $condition5DeBarre3;
+
+    /**
+     * @var int|null
+     *
+     * @ORM\Column(name="Points_5_de_Barre_3", type="integer", nullable=true)
+     */
+    private $points5DeBarre3;
+
+    /**
+     * @var int|null
+     *
+     * @ORM\Column(name="Condition_6_de_Barre_3", type="integer", nullable=true)
+     */
+    private $condition6DeBarre3;
+
+    /**
+     * @var int|null
+     *
+     * @ORM\Column(name="Points_6_de_Barre_3", type="integer", nullable=true)
+     */
+    private $points6DeBarre3;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="Points_2_de_Barre_2", type="string", length=100, nullable=true)
+     * @ORM\Column(name="Barre_4", type="string", length=19, nullable=true)
      */
-    private ?string $points2DeBarre2;
+    private $barre4;
+
+    /**
+     * @var int|null
+     *
+     * @ORM\Column(name="Points_1_de_Barre_4", type="integer", nullable=true)
+     */
+    private $points1DeBarre4;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="Condition_3_de_Barre_2", type="string", length=100, nullable=true)
+     * @ORM\Column(name="Barre_5", type="string", length=24, nullable=true)
      */
-    private ?string $condition3DeBarre2;
+    private $barre5;
+
+    /**
+     * @var int|null
+     *
+     * @ORM\Column(name="Points_1_de_Barre_5", type="integer", nullable=true)
+     */
+    private $points1DeBarre5;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="Points_3_de_Barre_2", type="string", length=100, nullable=true)
+     * @ORM\Column(name="Marker_spcifiques_1", type="string", length=76, nullable=true)
      */
-    private ?string $points3DeBarre2;
+    private $markerSpcifiques1;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="Condition_4_de_Barre_2", type="string", length=100, nullable=true)
+     * @ORM\Column(name="Points_1_de_Markers_spcifiques_1", type="string", length=83, nullable=true)
      */
-    private ?string $condition4DeBarre2;
+    private $points1DeMarkersSpcifiques1;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="Points_4_de_Barre_2", type="string", length=100, nullable=true)
+     * @ORM\Column(name="Condition_2_de_Markers_spcifiques_1", type="string", length=71, nullable=true)
      */
-    private ?string $points4DeBarre2;
+    private $condition2DeMarkersSpcifiques1;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="Condition_5_de_Barre_2", type="string", length=100, nullable=true)
+     * @ORM\Column(name="Points_2_de_Markers_spcifiques_1", type="string", length=42, nullable=true)
      */
-    private ?string $condition5DeBarre2;
+    private $points2DeMarkersSpcifiques1;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="Points_5_de_Barre_2", type="string", length=100, nullable=true)
+     * @ORM\Column(name="Condition_3_de_Markers_spcifiques_1", type="string", length=40, nullable=true)
      */
-    private ?string $points5DeBarre2;
+    private $condition3DeMarkersSpcifiques1;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="Condition_6_de_Barre_2", type="string", length=100, nullable=true)
+     * @ORM\Column(name="Points_3_de_Markers_spcifiques_1", type="string", length=43, nullable=true)
      */
-    private ?string $condition6DeBarre2;
+    private $points3DeMarkersSpcifiques1;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="Points_6_de_Barre_2", type="string", length=100, nullable=true)
+     * @ORM\Column(name="Condition_4_de_Markers_spcifiques_1", type="string", length=43, nullable=true)
      */
-    private ?string $points6DeBarre2;
+    private $condition4DeMarkersSpcifiques1;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="Barre_3", type="string", length=100, nullable=true)
+     * @ORM\Column(name="Points_4_de_Markers_spcifiques_1", type="decimal", precision=2, scale=1, nullable=true)
      */
-    private ?string $barre3;
+    private $points4DeMarkersSpcifiques1;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="Condition_diffrente_de_condition_1", type="string", length=100, nullable=true)
+     * @ORM\Column(name="Condition_5_de_Markers_spcifiques_1", type="string", length=10, nullable=true)
      */
-    private ?string $conditionDiffrenteDeCondition1;
+    private $condition5DeMarkersSpcifiques1;
+
+    /**
+     * @var int|null
+     *
+     * @ORM\Column(name="Points_5_de_Markers_spcifiques_1", type="integer", nullable=true)
+     */
+    private $points5DeMarkersSpcifiques1;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="Condition_1bis_de_Barre_3", type="string", length=100, nullable=true)
+     * @ORM\Column(name="Condition_6_de_Markers_spcifiques_1", type="string", length=11, nullable=true)
      */
-    private ?string $condition1bisDeBarre3;
+    private $condition6DeMarkersSpcifiques1;
+
+    /**
+     * @var int|null
+     *
+     * @ORM\Column(name="Points_6_de_Markers_spcifiques_1", type="integer", nullable=true)
+     */
+    private $points6DeMarkersSpcifiques1;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="Points_1_de_Barre_3", type="string", length=100, nullable=true)
+     * @ORM\Column(name="Marker_spcifiques_2", type="string", length=47, nullable=true)
      */
-    private ?string $points1DeBarre3;
+    private $markerSpcifiques2;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="Condition_2_de_Barre_3", type="string", length=100, nullable=true)
+     * @ORM\Column(name="Points_1_de_Markers_spcifiques_2", type="string", length=29, nullable=true)
      */
-    private ?string $condition2DeBarre3;
+    private $points1DeMarkersSpcifiques2;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="Points_2_de_Barre_3", type="string", length=100, nullable=true)
+     * @ORM\Column(name="Marker_spcifiques_3", type="string", length=32, nullable=true)
      */
-    private ?string $points2DeBarre3;
+    private $markerSpcifiques3;
 
     /**
-     * @var string|null
+     * @var int|null
      *
-     * @ORM\Column(name="Condition_3_de_Barre_3", type="string", length=100, nullable=true)
+     * @ORM\Column(name="Points_1_de_Markers_spcifiques_3", type="integer", nullable=true)
      */
-    private ?string $condition3DeBarre3;
+    private $points1DeMarkersSpcifiques3;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="Points_3_de_Barre_3", type="string", length=100, nullable=true)
-     */
-    private ?string $points3DeBarre3;
-
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="Condition_4_de_Barre_3", type="string", length=100, nullable=true)
-     */
-    private ?string $condition4DeBarre3;
-
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="Points_4_de_Barre_3", type="string", length=100, nullable=true)
-     */
-    private ?string $points4DeBarre3;
-
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="Condition_5_de_Barre_3", type="string", length=100, nullable=true)
-     */
-    private ?string $condition5DeBarre3;
-
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="Points_5_de_Barre_3", type="string", length=100, nullable=true)
-     */
-    private ?string $points5DeBarre3;
-
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="Condition_6_de_Barre_3", type="string", length=100, nullable=true)
-     */
-    private ?string $condition6DeBarre3;
-
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="Points_6_de_Barre_3", type="string", length=100, nullable=true)
-     */
-    private ?string $points6DeBarre3;
-
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="Barre_4", type="string", length=100, nullable=true)
-     */
-    private ?string $barre4;
-
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="Points_1_de_Barre_4", type="string", length=100, nullable=true)
-     */
-    private ?string $points1DeBarre4;
-
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="Barre_5", type="string", length=100, nullable=true)
-     */
-    private ?string $barre5;
-
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="Points_1_de_Barre_5", type="string", length=100, nullable=true)
-     */
-    private ?string $points1DeBarre5;
-
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="Marker_spcifiques_1", type="string", length=100, nullable=true)
-     */
-    private ?string $markerSpcifiques1;
-
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="Points_1_de_Markers_spcifiques_1", type="string", length=100, nullable=true)
-     */
-    private ?string $points1DeMarkersSpcifiques1;
-
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="Condition_2_de_Markers_spcifiques_1", type="string", length=100, nullable=true)
-     */
-    private ?string $condition2DeMarkersSpcifiques1;
-
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="Points_2_de_Markers_spcifiques_1", type="string", length=100, nullable=true)
-     */
-    private ?string $points2DeMarkersSpcifiques1;
-
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="Condition_3_de_Markers_spcifiques_1", type="string", length=100, nullable=true)
-     */
-    private ?string $condition3DeMarkersSpcifiques1;
-
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="Points_3_de_Markers_spcifiques_1", type="string", length=100, nullable=true)
-     */
-    private ?string $points3DeMarkersSpcifiques1;
-
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="Condition_4_de_Markers_spcifiques_1", type="string", length=100, nullable=true)
-     */
-    private ?string $condition4DeMarkersSpcifiques1;
-
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="Points_4_de_Markers_spcifiques_1", type="string", length=100, nullable=true)
-     */
-    private ?string $points4DeMarkersSpcifiques1;
-
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="Condition_5_de_Markers_spcifiques_1", type="string", length=100, nullable=true)
-     */
-    private ?string $condition5DeMarkersSpcifiques1;
-
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="Points_5_de_Markers_spcifiques_1", type="string", length=100, nullable=true)
-     */
-    private ?string $points5DeMarkersSpcifiques1;
-
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="Condition_6_de_Markers_spcifiques_1", type="string", length=100, nullable=true)
-     */
-    private ?string $condition6DeMarkersSpcifiques1;
-
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="Points_6_de_Markers_spcifiques_1", type="string", length=100, nullable=true)
-     */
-    private ?string $points6DeMarkersSpcifiques1;
-
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="Marker_spcifiques_2", type="string", length=100, nullable=true)
-     */
-    private ?string $markerSpcifiques2;
-
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="Points_1_de_Markers_spcifiques_2", type="string", length=100, nullable=true)
-     */
-    private ?string $points1DeMarkersSpcifiques2;
-
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="Marker_spcifiques_3", type="string", length=100, nullable=true)
-     */
-    private ?string $markerSpcifiques3;
-
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="Points_1_de_Markers_spcifiques_3", type="string", length=100, nullable=true)
-     */
-    private ?string $points1DeMarkersSpcifiques3;
-
-    /**
-     * @return string|null
-     */
-    public function getBarre(): ?string
-    {
-        return $this->barre;
-    }
-
-    /**
-     * @param string|null $barre
-     */
-    public function setBarre(?string $barre): void
-    {
-        $this->barre = $barre;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getBarre2(): ?string
-    {
-        return $this->barre2;
-    }
-
-    /**
-     * @param string|null $barre2
-     */
-    public function setBarre2(?string $barre2): void
-    {
-        $this->barre2 = $barre2;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getBarre3(): ?string
-    {
-        return $this->barre3;
-    }
-
-    /**
-     * @param string|null $barre3
-     */
-    public function setBarre3(?string $barre3): void
-    {
-        $this->barre3 = $barre3;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getBarre4(): ?string
-    {
-        return $this->barre4;
-    }
-
-    /**
-     * @param string|null $barre4
-     */
-    public function setBarre4(?string $barre4): void
-    {
-        $this->barre4 = $barre4;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getBarre5(): ?string
-    {
-        return $this->barre5;
-    }
-
-    /**
-     * @param string|null $barre5
-     */
-    public function setBarre5(?string $barre5): void
-    {
-        $this->barre5 = $barre5;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getCommentairesInformations(): ?string
-    {
-        return $this->commentairesInformations;
-    }
-
-    /**
-     * @param string|null $commentairesInformations
-     */
-    public function setCommentairesInformations(?string $commentairesInformations): void
-    {
-        $this->commentairesInformations = $commentairesInformations;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getCommentairesInformations2(): ?string
-    {
-        return $this->commentairesInformations2;
-    }
-
-    /**
-     * @param string|null $commentairesInformations2
-     */
-    public function setCommentairesInformations2(?string $commentairesInformations2): void
-    {
-        $this->commentairesInformations2 = $commentairesInformations2;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getCommentairesInformations3(): ?string
-    {
-        return $this->commentairesInformations3;
-    }
-
-    /**
-     * @param string|null $commentairesInformations3
-     */
-    public function setCommentairesInformations3(?string $commentairesInformations3): void
-    {
-        $this->commentairesInformations3 = $commentairesInformations3;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getCondition1(): ?string
-    {
-        return $this->condition1;
-    }
-
-    /**
-     * @param string|null $condition1
-     */
-    public function setCondition1(?string $condition1): void
-    {
-        $this->condition1 = $condition1;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getCondition1bisDeBarre3(): ?string
-    {
-        return $this->condition1bisDeBarre3;
-    }
-
-    /**
-     * @param string|null $condition1bisDeBarre3
-     */
-    public function setCondition1bisDeBarre3(?string $condition1bisDeBarre3): void
-    {
-        $this->condition1bisDeBarre3 = $condition1bisDeBarre3;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getCondition2Barre1(): ?string
-    {
-        return $this->condition2Barre1;
-    }
-
-    /**
-     * @param string|null $condition2Barre1
-     */
-    public function setCondition2Barre1(?string $condition2Barre1): void
-    {
-        $this->condition2Barre1 = $condition2Barre1;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getCondition2DeBarre2(): ?string
-    {
-        return $this->condition2DeBarre2;
-    }
-
-    /**
-     * @param string|null $condition2DeBarre2
-     */
-    public function setCondition2DeBarre2(?string $condition2DeBarre2): void
-    {
-        $this->condition2DeBarre2 = $condition2DeBarre2;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getCondition2DeBarre3(): ?string
-    {
-        return $this->condition2DeBarre3;
-    }
-
-    /**
-     * @param string|null $condition2DeBarre3
-     */
-    public function setCondition2DeBarre3(?string $condition2DeBarre3): void
-    {
-        $this->condition2DeBarre3 = $condition2DeBarre3;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getCondition2DeMarkersSpcifiques1(): ?string
-    {
-        return $this->condition2DeMarkersSpcifiques1;
-    }
-
-    /**
-     * @param string|null $condition2DeMarkersSpcifiques1
-     */
-    public function setCondition2DeMarkersSpcifiques1(?string $condition2DeMarkersSpcifiques1): void
-    {
-        $this->condition2DeMarkersSpcifiques1 = $condition2DeMarkersSpcifiques1;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getCondition3DeBarre1(): ?string
-    {
-        return $this->condition3DeBarre1;
-    }
-
-    /**
-     * @param string|null $condition3DeBarre1
-     */
-    public function setCondition3DeBarre1(?string $condition3DeBarre1): void
-    {
-        $this->condition3DeBarre1 = $condition3DeBarre1;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getCondition3DeBarre2(): ?string
-    {
-        return $this->condition3DeBarre2;
-    }
-
-    /**
-     * @param string|null $condition3DeBarre2
-     */
-    public function setCondition3DeBarre2(?string $condition3DeBarre2): void
-    {
-        $this->condition3DeBarre2 = $condition3DeBarre2;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getCondition3DeBarre3(): ?string
-    {
-        return $this->condition3DeBarre3;
-    }
-
-    /**
-     * @param string|null $condition3DeBarre3
-     */
-    public function setCondition3DeBarre3(?string $condition3DeBarre3): void
-    {
-        $this->condition3DeBarre3 = $condition3DeBarre3;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getCondition3DeMarkersSpcifiques1(): ?string
-    {
-        return $this->condition3DeMarkersSpcifiques1;
-    }
-
-    /**
-     * @param string|null $condition3DeMarkersSpcifiques1
-     */
-    public function setCondition3DeMarkersSpcifiques1(?string $condition3DeMarkersSpcifiques1): void
-    {
-        $this->condition3DeMarkersSpcifiques1 = $condition3DeMarkersSpcifiques1;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getCondition4DeBarre1(): ?string
-    {
-        return $this->condition4DeBarre1;
-    }
-
-    /**
-     * @param string|null $condition4DeBarre1
-     */
-    public function setCondition4DeBarre1(?string $condition4DeBarre1): void
-    {
-        $this->condition4DeBarre1 = $condition4DeBarre1;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getCondition4DeBarre2(): ?string
-    {
-        return $this->condition4DeBarre2;
-    }
-
-    /**
-     * @param string|null $condition4DeBarre2
-     */
-    public function setCondition4DeBarre2(?string $condition4DeBarre2): void
-    {
-        $this->condition4DeBarre2 = $condition4DeBarre2;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getCondition4DeBarre3(): ?string
-    {
-        return $this->condition4DeBarre3;
-    }
-
-    /**
-     * @param string|null $condition4DeBarre3
-     */
-    public function setCondition4DeBarre3(?string $condition4DeBarre3): void
-    {
-        $this->condition4DeBarre3 = $condition4DeBarre3;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getCondition4DeMarkersSpcifiques1(): ?string
-    {
-        return $this->condition4DeMarkersSpcifiques1;
-    }
-
-    /**
-     * @param string|null $condition4DeMarkersSpcifiques1
-     */
-    public function setCondition4DeMarkersSpcifiques1(?string $condition4DeMarkersSpcifiques1): void
-    {
-        $this->condition4DeMarkersSpcifiques1 = $condition4DeMarkersSpcifiques1;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getCondition5DeBarre1(): ?string
-    {
-        return $this->condition5DeBarre1;
-    }
-
-    /**
-     * @param string|null $condition5DeBarre1
-     */
-    public function setCondition5DeBarre1(?string $condition5DeBarre1): void
-    {
-        $this->condition5DeBarre1 = $condition5DeBarre1;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getCondition5DeBarre2(): ?string
-    {
-        return $this->condition5DeBarre2;
-    }
-
-    /**
-     * @param string|null $condition5DeBarre2
-     */
-    public function setCondition5DeBarre2(?string $condition5DeBarre2): void
-    {
-        $this->condition5DeBarre2 = $condition5DeBarre2;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getCondition5DeBarre3(): ?string
-    {
-        return $this->condition5DeBarre3;
-    }
-
-    /**
-     * @param string|null $condition5DeBarre3
-     */
-    public function setCondition5DeBarre3(?string $condition5DeBarre3): void
-    {
-        $this->condition5DeBarre3 = $condition5DeBarre3;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getCondition5DeMarkersSpcifiques1(): ?string
-    {
-        return $this->condition5DeMarkersSpcifiques1;
-    }
-
-    /**
-     * @param string|null $condition5DeMarkersSpcifiques1
-     */
-    public function setCondition5DeMarkersSpcifiques1(?string $condition5DeMarkersSpcifiques1): void
-    {
-        $this->condition5DeMarkersSpcifiques1 = $condition5DeMarkersSpcifiques1;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getCondition6DeBarre1(): ?string
-    {
-        return $this->condition6DeBarre1;
-    }
-
-    /**
-     * @param string|null $condition6DeBarre1
-     */
-    public function setCondition6DeBarre1(?string $condition6DeBarre1): void
-    {
-        $this->condition6DeBarre1 = $condition6DeBarre1;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getCondition6DeBarre2(): ?string
-    {
-        return $this->condition6DeBarre2;
-    }
-
-    /**
-     * @param string|null $condition6DeBarre2
-     */
-    public function setCondition6DeBarre2(?string $condition6DeBarre2): void
-    {
-        $this->condition6DeBarre2 = $condition6DeBarre2;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getCondition6DeBarre3(): ?string
-    {
-        return $this->condition6DeBarre3;
-    }
-
-    /**
-     * @param string|null $condition6DeBarre3
-     */
-    public function setCondition6DeBarre3(?string $condition6DeBarre3): void
-    {
-        $this->condition6DeBarre3 = $condition6DeBarre3;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getCondition6DeMarkersSpcifiques1(): ?string
-    {
-        return $this->condition6DeMarkersSpcifiques1;
-    }
-
-    /**
-     * @param string|null $condition6DeMarkersSpcifiques1
-     */
-    public function setCondition6DeMarkersSpcifiques1(?string $condition6DeMarkersSpcifiques1): void
-    {
-        $this->condition6DeMarkersSpcifiques1 = $condition6DeMarkersSpcifiques1;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getConditionDiffrenteDeCondition1(): ?string
-    {
-        return $this->conditionDiffrenteDeCondition1;
-    }
-
-    /**
-     * @param string|null $conditionDiffrenteDeCondition1
-     */
-    public function setConditionDiffrenteDeCondition1(?string $conditionDiffrenteDeCondition1): void
-    {
-        $this->conditionDiffrenteDeCondition1 = $conditionDiffrenteDeCondition1;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getDataCategory(): ?string
-    {
-        return $this->dataCategory;
-    }
-
-    /**
-     * @param string|null $dataCategory
-     */
-    public function setDataCategory(?string $dataCategory): void
-    {
-        $this->dataCategory = $dataCategory;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getDataFormat(): ?string
-    {
-        return $this->dataFormat;
-    }
-
-    /**
-     * @param string|null $dataFormat
-     */
-    public function setDataFormat(?string $dataFormat): void
-    {
-        $this->dataFormat = $dataFormat;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getDetail(): ?string
-    {
-        return $this->detail;
-    }
-
-    /**
-     * @param string|null $detail
-     */
-    public function setDetail(?string $detail): void
-    {
-        $this->detail = $detail;
-    }
-
-    /**
-     * @return int|null
-     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @param int|null $id
-     */
-    public function setId(?int $id): void
+    public function getFinalisation(): ?string
     {
-        $this->id = $id;
+        return $this->finalisation;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getInvalidationIncrement(): ?string
+    public function setFinalisation(?string $finalisation): self
     {
-        return $this->invalidationIncrement;
+        $this->finalisation = $finalisation;
+
+        return $this;
     }
 
-    /**
-     * @param string|null $invalidationIncrement
-     */
-    public function setInvalidationIncrement(?string $invalidationIncrement): void
+    public function getTypeOfData(): ?string
     {
-        $this->invalidationIncrement = $invalidationIncrement;
+        return $this->typeOfData;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getMarkerSpcifiques1(): ?string
+    public function setTypeOfData(?string $typeOfData): self
     {
-        return $this->markerSpcifiques1;
+        $this->typeOfData = $typeOfData;
+
+        return $this;
     }
 
-    /**
-     * @param string|null $markerSpcifiques1
-     */
-    public function setMarkerSpcifiques1(?string $markerSpcifiques1): void
-    {
-        $this->markerSpcifiques1 = $markerSpcifiques1;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getMarkerSpcifiques2(): ?string
-    {
-        return $this->markerSpcifiques2;
-    }
-
-    /**
-     * @param string|null $markerSpcifiques2
-     */
-    public function setMarkerSpcifiques2(?string $markerSpcifiques2): void
-    {
-        $this->markerSpcifiques2 = $markerSpcifiques2;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getMarkerSpcifiques3(): ?string
-    {
-        return $this->markerSpcifiques3;
-    }
-
-    /**
-     * @param string|null $markerSpcifiques3
-     */
-    public function setMarkerSpcifiques3(?string $markerSpcifiques3): void
-    {
-        $this->markerSpcifiques3 = $markerSpcifiques3;
-    }
-
-    /**
-     * @return string|null
-     */
     public function getModule(): ?string
     {
         return $this->module;
     }
 
-    /**
-     * @param string|null $module
-     */
-    public function setModule(?string $module): void
+    public function setModule(?string $module): self
     {
         $this->module = $module;
+
+        return $this;
     }
 
-    /**
-     * @return string|null
-     */
+    public function getCommentairesInformations(): ?string
+    {
+        return $this->commentairesInformations;
+    }
+
+    public function setCommentairesInformations(?string $commentairesInformations): self
+    {
+        $this->commentairesInformations = $commentairesInformations;
+
+        return $this;
+    }
+
+    public function getCommentairesInformations2(): ?string
+    {
+        return $this->commentairesInformations2;
+    }
+
+    public function setCommentairesInformations2(?string $commentairesInformations2): self
+    {
+        $this->commentairesInformations2 = $commentairesInformations2;
+
+        return $this;
+    }
+
+    public function getCommentairesInformations3(): ?string
+    {
+        return $this->commentairesInformations3;
+    }
+
+    public function setCommentairesInformations3(?string $commentairesInformations3): self
+    {
+        $this->commentairesInformations3 = $commentairesInformations3;
+
+        return $this;
+    }
+
+    public function getNomsFrEnIt(): ?string
+    {
+        return $this->nomsFrEnIt;
+    }
+
+    public function setNomsFrEnIt(?string $nomsFrEnIt): self
+    {
+        $this->nomsFrEnIt = $nomsFrEnIt;
+
+        return $this;
+    }
+
     public function getNoms(): ?string
     {
         return $this->noms;
     }
 
-    /**
-     * @param string|null $noms
-     */
-    public function setNoms(?string $noms): void
+    public function setNoms(?string $noms): self
     {
         $this->noms = $noms;
+
+        return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getPeriodOfValidity(): ?string
-    {
-        return $this->periodOfValidity;
-    }
-
-    /**
-     * @param string|null $periodOfValidity
-     */
-    public function setPeriodOfValidity(?string $periodOfValidity): void
-    {
-        $this->periodOfValidity = $periodOfValidity;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getPoints1DeBarre1(): ?string
-    {
-        return $this->points1DeBarre1;
-    }
-
-    /**
-     * @param string|null $points1DeBarre1
-     */
-    public function setPoints1DeBarre1(?string $points1DeBarre1): void
-    {
-        $this->points1DeBarre1 = $points1DeBarre1;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getPoints1DeBarre2(): ?string
-    {
-        return $this->points1DeBarre2;
-    }
-
-    /**
-     * @param string|null $points1DeBarre2
-     */
-    public function setPoints1DeBarre2(?string $points1DeBarre2): void
-    {
-        $this->points1DeBarre2 = $points1DeBarre2;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getPoints1DeBarre3(): ?string
-    {
-        return $this->points1DeBarre3;
-    }
-
-    /**
-     * @param string|null $points1DeBarre3
-     */
-    public function setPoints1DeBarre3(?string $points1DeBarre3): void
-    {
-        $this->points1DeBarre3 = $points1DeBarre3;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getPoints1DeBarre4(): ?string
-    {
-        return $this->points1DeBarre4;
-    }
-
-    /**
-     * @param string|null $points1DeBarre4
-     */
-    public function setPoints1DeBarre4(?string $points1DeBarre4): void
-    {
-        $this->points1DeBarre4 = $points1DeBarre4;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getPoints1DeBarre5(): ?string
-    {
-        return $this->points1DeBarre5;
-    }
-
-    /**
-     * @param string|null $points1DeBarre5
-     */
-    public function setPoints1DeBarre5(?string $points1DeBarre5): void
-    {
-        $this->points1DeBarre5 = $points1DeBarre5;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getPoints1DeMarkersSpcifiques1(): ?string
-    {
-        return $this->points1DeMarkersSpcifiques1;
-    }
-
-    /**
-     * @param string|null $points1DeMarkersSpcifiques1
-     */
-    public function setPoints1DeMarkersSpcifiques1(?string $points1DeMarkersSpcifiques1): void
-    {
-        $this->points1DeMarkersSpcifiques1 = $points1DeMarkersSpcifiques1;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getPoints1DeMarkersSpcifiques2(): ?string
-    {
-        return $this->points1DeMarkersSpcifiques2;
-    }
-
-    /**
-     * @param string|null $points1DeMarkersSpcifiques2
-     */
-    public function setPoints1DeMarkersSpcifiques2(?string $points1DeMarkersSpcifiques2): void
-    {
-        $this->points1DeMarkersSpcifiques2 = $points1DeMarkersSpcifiques2;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getPoints1DeMarkersSpcifiques3(): ?string
-    {
-        return $this->points1DeMarkersSpcifiques3;
-    }
-
-    /**
-     * @param string|null $points1DeMarkersSpcifiques3
-     */
-    public function setPoints1DeMarkersSpcifiques3(?string $points1DeMarkersSpcifiques3): void
-    {
-        $this->points1DeMarkersSpcifiques3 = $points1DeMarkersSpcifiques3;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getPoints2Barre1(): ?string
-    {
-        return $this->points2Barre1;
-    }
-
-    /**
-     * @param string|null $points2Barre1
-     */
-    public function setPoints2Barre1(?string $points2Barre1): void
-    {
-        $this->points2Barre1 = $points2Barre1;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getPoints2DeBarre2(): ?string
-    {
-        return $this->points2DeBarre2;
-    }
-
-    /**
-     * @param string|null $points2DeBarre2
-     */
-    public function setPoints2DeBarre2(?string $points2DeBarre2): void
-    {
-        $this->points2DeBarre2 = $points2DeBarre2;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getPoints2DeBarre3(): ?string
-    {
-        return $this->points2DeBarre3;
-    }
-
-    /**
-     * @param string|null $points2DeBarre3
-     */
-    public function setPoints2DeBarre3(?string $points2DeBarre3): void
-    {
-        $this->points2DeBarre3 = $points2DeBarre3;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getPoints2DeMarkersSpcifiques1(): ?string
-    {
-        return $this->points2DeMarkersSpcifiques1;
-    }
-
-    /**
-     * @param string|null $points2DeMarkersSpcifiques1
-     */
-    public function setPoints2DeMarkersSpcifiques1(?string $points2DeMarkersSpcifiques1): void
-    {
-        $this->points2DeMarkersSpcifiques1 = $points2DeMarkersSpcifiques1;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getPoints3DeBarre1(): ?string
-    {
-        return $this->points3DeBarre1;
-    }
-
-    /**
-     * @param string|null $points3DeBarre1
-     */
-    public function setPoints3DeBarre1(?string $points3DeBarre1): void
-    {
-        $this->points3DeBarre1 = $points3DeBarre1;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getPoints3DeBarre2(): ?string
-    {
-        return $this->points3DeBarre2;
-    }
-
-    /**
-     * @param string|null $points3DeBarre2
-     */
-    public function setPoints3DeBarre2(?string $points3DeBarre2): void
-    {
-        $this->points3DeBarre2 = $points3DeBarre2;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getPoints3DeBarre3(): ?string
-    {
-        return $this->points3DeBarre3;
-    }
-
-    /**
-     * @param string|null $points3DeBarre3
-     */
-    public function setPoints3DeBarre3(?string $points3DeBarre3): void
-    {
-        $this->points3DeBarre3 = $points3DeBarre3;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getPoints3DeMarkersSpcifiques1(): ?string
-    {
-        return $this->points3DeMarkersSpcifiques1;
-    }
-
-    /**
-     * @param string|null $points3DeMarkersSpcifiques1
-     */
-    public function setPoints3DeMarkersSpcifiques1(?string $points3DeMarkersSpcifiques1): void
-    {
-        $this->points3DeMarkersSpcifiques1 = $points3DeMarkersSpcifiques1;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getPoints4DeBarre1(): ?string
-    {
-        return $this->points4DeBarre1;
-    }
-
-    /**
-     * @param string|null $points4DeBarre1
-     */
-    public function setPoints4DeBarre1(?string $points4DeBarre1): void
-    {
-        $this->points4DeBarre1 = $points4DeBarre1;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getPoints4DeBarre2(): ?string
-    {
-        return $this->points4DeBarre2;
-    }
-
-    /**
-     * @param string|null $points4DeBarre2
-     */
-    public function setPoints4DeBarre2(?string $points4DeBarre2): void
-    {
-        $this->points4DeBarre2 = $points4DeBarre2;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getPoints4DeBarre3(): ?string
-    {
-        return $this->points4DeBarre3;
-    }
-
-    /**
-     * @param string|null $points4DeBarre3
-     */
-    public function setPoints4DeBarre3(?string $points4DeBarre3): void
-    {
-        $this->points4DeBarre3 = $points4DeBarre3;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getPoints4DeMarkersSpcifiques1(): ?string
-    {
-        return $this->points4DeMarkersSpcifiques1;
-    }
-
-    /**
-     * @param string|null $points4DeMarkersSpcifiques1
-     */
-    public function setPoints4DeMarkersSpcifiques1(?string $points4DeMarkersSpcifiques1): void
-    {
-        $this->points4DeMarkersSpcifiques1 = $points4DeMarkersSpcifiques1;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getPoints5DeBarre1(): ?string
-    {
-        return $this->points5DeBarre1;
-    }
-
-    /**
-     * @param string|null $points5DeBarre1
-     */
-    public function setPoints5DeBarre1(?string $points5DeBarre1): void
-    {
-        $this->points5DeBarre1 = $points5DeBarre1;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getPoints5DeBarre2(): ?string
-    {
-        return $this->points5DeBarre2;
-    }
-
-    /**
-     * @param string|null $points5DeBarre2
-     */
-    public function setPoints5DeBarre2(?string $points5DeBarre2): void
-    {
-        $this->points5DeBarre2 = $points5DeBarre2;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getPoints5DeBarre3(): ?string
-    {
-        return $this->points5DeBarre3;
-    }
-
-    /**
-     * @param string|null $points5DeBarre3
-     */
-    public function setPoints5DeBarre3(?string $points5DeBarre3): void
-    {
-        $this->points5DeBarre3 = $points5DeBarre3;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getPoints5DeMarkersSpcifiques1(): ?string
-    {
-        return $this->points5DeMarkersSpcifiques1;
-    }
-
-    /**
-     * @param string|null $points5DeMarkersSpcifiques1
-     */
-    public function setPoints5DeMarkersSpcifiques1(?string $points5DeMarkersSpcifiques1): void
-    {
-        $this->points5DeMarkersSpcifiques1 = $points5DeMarkersSpcifiques1;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getPoints6DeBarre1(): ?string
-    {
-        return $this->points6DeBarre1;
-    }
-
-    /**
-     * @param string|null $points6DeBarre1
-     */
-    public function setPoints6DeBarre1(?string $points6DeBarre1): void
-    {
-        $this->points6DeBarre1 = $points6DeBarre1;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getPoints6DeBarre2(): ?string
-    {
-        return $this->points6DeBarre2;
-    }
-
-    /**
-     * @param string|null $points6DeBarre2
-     */
-    public function setPoints6DeBarre2(?string $points6DeBarre2): void
-    {
-        $this->points6DeBarre2 = $points6DeBarre2;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getPoints6DeBarre3(): ?string
-    {
-        return $this->points6DeBarre3;
-    }
-
-    /**
-     * @param string|null $points6DeBarre3
-     */
-    public function setPoints6DeBarre3(?string $points6DeBarre3): void
-    {
-        $this->points6DeBarre3 = $points6DeBarre3;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getPoints6DeMarkersSpcifiques1(): ?string
-    {
-        return $this->points6DeMarkersSpcifiques1;
-    }
-
-    /**
-     * @param string|null $points6DeMarkersSpcifiques1
-     */
-    public function setPoints6DeMarkersSpcifiques1(?string $points6DeMarkersSpcifiques1): void
-    {
-        $this->points6DeMarkersSpcifiques1 = $points6DeMarkersSpcifiques1;
-    }
-
-    /**
-     * @return string|null
-     */
     public function getReferenceSctid(): ?string
     {
         return $this->referenceSctid;
     }
 
-    /**
-     * @param string|null $referenceSctid
-     */
-    public function setReferenceSctid(?string $referenceSctid): void
+    public function setReferenceSctid(?string $referenceSctid): self
     {
         $this->referenceSctid = $referenceSctid;
+
+        return $this;
     }
 
-    /**
-     * @return string|null
-     */
+    public function getDetail(): ?string
+    {
+        return $this->detail;
+    }
+
+    public function setDetail(?string $detail): self
+    {
+        $this->detail = $detail;
+
+        return $this;
+    }
+
+    public function getDataCategory(): ?string
+    {
+        return $this->dataCategory;
+    }
+
+    public function setDataCategory(?string $dataCategory): self
+    {
+        $this->dataCategory = $dataCategory;
+
+        return $this;
+    }
+
+    public function getPeriodOfValidity(): ?string
+    {
+        return $this->periodOfValidity;
+    }
+
+    public function setPeriodOfValidity(?string $periodOfValidity): self
+    {
+        $this->periodOfValidity = $periodOfValidity;
+
+        return $this;
+    }
+
+    public function getInvalidationIncrement(): ?string
+    {
+        return $this->invalidationIncrement;
+    }
+
+    public function setInvalidationIncrement(?string $invalidationIncrement): self
+    {
+        $this->invalidationIncrement = $invalidationIncrement;
+
+        return $this;
+    }
+
     public function getSexe(): ?string
     {
         return $this->sexe;
     }
 
-    /**
-     * @param string|null $sexe
-     */
-    public function setSexe(?string $sexe): void
+    public function setSexe(?string $sexe): self
     {
         $this->sexe = $sexe;
+
+        return $this;
     }
 
-    /**
-     * @return int|null
-     */
-    public function getThresholdAgeMin(): ?int
+    public function getThresholdAgeMin(): ?string
     {
         return $this->thresholdAgeMin;
     }
 
-    /**
-     * @param int|null $thresholdAgeMin
-     */
-    public function setThresholdAgeMin(?int $thresholdAgeMin): void
+    public function setThresholdAgeMin(?string $thresholdAgeMin): self
     {
         $this->thresholdAgeMin = $thresholdAgeMin;
+
+        return $this;
     }
 
-    /**
-     * @return int|null
-     */
-    public function getThresholdAgeMmx(): ?int
+    public function getThresholdAgeMax(): ?string
     {
-        return $this->thresholdAgeMmx;
+        return $this->thresholdAgeMax;
     }
 
-    /**
-     * @param int|null $thresholdAgeMmx
-     */
-    public function setThresholdAgeMmx(?int $thresholdAgeMmx): void
+    public function setThresholdAgeMax(?string $thresholdAgeMax): self
     {
-        $this->thresholdAgeMmx = $thresholdAgeMmx;
+        $this->thresholdAgeMax = $thresholdAgeMax;
+
+        return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getThresholdMax(): ?string
+    public function getDataFormat(): ?string
     {
-        return $this->thresholdMax;
+        return $this->dataFormat;
     }
 
-    /**
-     * @param string|null $thresholdMax
-     */
-    public function setThresholdMax(?string $thresholdMax): void
+    public function setDataFormat(?string $dataFormat): self
     {
-        $this->thresholdMax = $thresholdMax;
+        $this->dataFormat = $dataFormat;
+
+        return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getThresholdMin(): ?string
-    {
-        return $this->thresholdMin;
-    }
-
-    /**
-     * @param string|null $thresholdMin
-     */
-    public function setThresholdMin(?string $thresholdMin): void
-    {
-        $this->thresholdMin = $thresholdMin;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getTypeDeDonne(): ?string
-    {
-        return $this->typeDeDonne;
-    }
-
-    /**
-     * @param string|null $typeDeDonne
-     */
-    public function setTypeDeDonne(?string $typeDeDonne): void
-    {
-        $this->typeDeDonne = $typeDeDonne;
-    }
-
-    /**
-     * @return string|null
-     */
     public function getUnitDeMesure(): ?string
     {
         return $this->unitDeMesure;
     }
 
-    /**
-     * @param string|null $unitDeMesure
-     */
-    public function setUnitDeMesure(?string $unitDeMesure): void
+    public function setUnitDeMesure(?string $unitDeMesure): self
     {
         $this->unitDeMesure = $unitDeMesure;
+
+        return $this;
     }
 
-
-    public function count()
+    public function getThresholdMin(): ?string
     {
-        // TODO: Implement count() method.
+        return $this->thresholdMin;
     }
+
+    public function setThresholdMin(?string $thresholdMin): self
+    {
+        $this->thresholdMin = $thresholdMin;
+
+        return $this;
+    }
+
+    public function getThresholdMax(): ?string
+    {
+        return $this->thresholdMax;
+    }
+
+    public function setThresholdMax(?string $thresholdMax): self
+    {
+        $this->thresholdMax = $thresholdMax;
+
+        return $this;
+    }
+
+    public function getCondition1(): ?string
+    {
+        return $this->condition1;
+    }
+
+    public function setCondition1(?string $condition1): self
+    {
+        $this->condition1 = $condition1;
+
+        return $this;
+    }
+
+    public function getBarre(): ?string
+    {
+        return $this->barre;
+    }
+
+    public function setBarre(?string $barre): self
+    {
+        $this->barre = $barre;
+
+        return $this;
+    }
+
+    public function getPoints1DeBarre1(): ?string
+    {
+        return $this->points1DeBarre1;
+    }
+
+    public function setPoints1DeBarre1(?string $points1DeBarre1): self
+    {
+        $this->points1DeBarre1 = $points1DeBarre1;
+
+        return $this;
+    }
+
+    public function getCondition2DeBarre1(): ?string
+    {
+        return $this->condition2DeBarre1;
+    }
+
+    public function setCondition2DeBarre1(?string $condition2DeBarre1): self
+    {
+        $this->condition2DeBarre1 = $condition2DeBarre1;
+
+        return $this;
+    }
+
+    public function getPoints2DeBarre1(): ?string
+    {
+        return $this->points2DeBarre1;
+    }
+
+    public function setPoints2DeBarre1(?string $points2DeBarre1): self
+    {
+        $this->points2DeBarre1 = $points2DeBarre1;
+
+        return $this;
+    }
+
+    public function getCondition3DeBarre1(): ?string
+    {
+        return $this->condition3DeBarre1;
+    }
+
+    public function setCondition3DeBarre1(?string $condition3DeBarre1): self
+    {
+        $this->condition3DeBarre1 = $condition3DeBarre1;
+
+        return $this;
+    }
+
+    public function getPoints3DeBarre1(): ?int
+    {
+        return $this->points3DeBarre1;
+    }
+
+    public function setPoints3DeBarre1(?int $points3DeBarre1): self
+    {
+        $this->points3DeBarre1 = $points3DeBarre1;
+
+        return $this;
+    }
+
+    public function getCondition4DeBarre1(): ?string
+    {
+        return $this->condition4DeBarre1;
+    }
+
+    public function setCondition4DeBarre1(?string $condition4DeBarre1): self
+    {
+        $this->condition4DeBarre1 = $condition4DeBarre1;
+
+        return $this;
+    }
+
+    public function getPoints4DeBarre1(): ?int
+    {
+        return $this->points4DeBarre1;
+    }
+
+    public function setPoints4DeBarre1(?int $points4DeBarre1): self
+    {
+        $this->points4DeBarre1 = $points4DeBarre1;
+
+        return $this;
+    }
+
+    public function getCondition5DeBarre1(): ?string
+    {
+        return $this->condition5DeBarre1;
+    }
+
+    public function setCondition5DeBarre1(?string $condition5DeBarre1): self
+    {
+        $this->condition5DeBarre1 = $condition5DeBarre1;
+
+        return $this;
+    }
+
+    public function getPoints5DeBarre1(): ?int
+    {
+        return $this->points5DeBarre1;
+    }
+
+    public function setPoints5DeBarre1(?int $points5DeBarre1): self
+    {
+        $this->points5DeBarre1 = $points5DeBarre1;
+
+        return $this;
+    }
+
+    public function getCondition6DeBarre1(): ?string
+    {
+        return $this->condition6DeBarre1;
+    }
+
+    public function setCondition6DeBarre1(?string $condition6DeBarre1): self
+    {
+        $this->condition6DeBarre1 = $condition6DeBarre1;
+
+        return $this;
+    }
+
+    public function getPoints6DeBarre1(): ?int
+    {
+        return $this->points6DeBarre1;
+    }
+
+    public function setPoints6DeBarre1(?int $points6DeBarre1): self
+    {
+        $this->points6DeBarre1 = $points6DeBarre1;
+
+        return $this;
+    }
+
+    public function getBarre2(): ?string
+    {
+        return $this->barre2;
+    }
+
+    public function setBarre2(?string $barre2): self
+    {
+        $this->barre2 = $barre2;
+
+        return $this;
+    }
+
+    public function getPoints1DeBarre2(): ?string
+    {
+        return $this->points1DeBarre2;
+    }
+
+    public function setPoints1DeBarre2(?string $points1DeBarre2): self
+    {
+        $this->points1DeBarre2 = $points1DeBarre2;
+
+        return $this;
+    }
+
+    public function getCondition2DeBarre2(): ?string
+    {
+        return $this->condition2DeBarre2;
+    }
+
+    public function setCondition2DeBarre2(?string $condition2DeBarre2): self
+    {
+        $this->condition2DeBarre2 = $condition2DeBarre2;
+
+        return $this;
+    }
+
+    public function getPoints2DeBarre2(): ?string
+    {
+        return $this->points2DeBarre2;
+    }
+
+    public function setPoints2DeBarre2(?string $points2DeBarre2): self
+    {
+        $this->points2DeBarre2 = $points2DeBarre2;
+
+        return $this;
+    }
+
+    public function getCondition3DeBarre2(): ?string
+    {
+        return $this->condition3DeBarre2;
+    }
+
+    public function setCondition3DeBarre2(?string $condition3DeBarre2): self
+    {
+        $this->condition3DeBarre2 = $condition3DeBarre2;
+
+        return $this;
+    }
+
+    public function getPoints3DeBarre2(): ?string
+    {
+        return $this->points3DeBarre2;
+    }
+
+    public function setPoints3DeBarre2(?string $points3DeBarre2): self
+    {
+        $this->points3DeBarre2 = $points3DeBarre2;
+
+        return $this;
+    }
+
+    public function getCondition4DeBarre2(): ?string
+    {
+        return $this->condition4DeBarre2;
+    }
+
+    public function setCondition4DeBarre2(?string $condition4DeBarre2): self
+    {
+        $this->condition4DeBarre2 = $condition4DeBarre2;
+
+        return $this;
+    }
+
+    public function getPoints4DeBarre2(): ?string
+    {
+        return $this->points4DeBarre2;
+    }
+
+    public function setPoints4DeBarre2(?string $points4DeBarre2): self
+    {
+        $this->points4DeBarre2 = $points4DeBarre2;
+
+        return $this;
+    }
+
+    public function getCondition5DeBarre2(): ?string
+    {
+        return $this->condition5DeBarre2;
+    }
+
+    public function setCondition5DeBarre2(?string $condition5DeBarre2): self
+    {
+        $this->condition5DeBarre2 = $condition5DeBarre2;
+
+        return $this;
+    }
+
+    public function getPoints5DeBarre2(): ?string
+    {
+        return $this->points5DeBarre2;
+    }
+
+    public function setPoints5DeBarre2(?string $points5DeBarre2): self
+    {
+        $this->points5DeBarre2 = $points5DeBarre2;
+
+        return $this;
+    }
+
+    public function getCondition6DeBarre2(): ?int
+    {
+        return $this->condition6DeBarre2;
+    }
+
+    public function setCondition6DeBarre2(?int $condition6DeBarre2): self
+    {
+        $this->condition6DeBarre2 = $condition6DeBarre2;
+
+        return $this;
+    }
+
+    public function getPoints6DeBarre2(): ?int
+    {
+        return $this->points6DeBarre2;
+    }
+
+    public function setPoints6DeBarre2(?int $points6DeBarre2): self
+    {
+        $this->points6DeBarre2 = $points6DeBarre2;
+
+        return $this;
+    }
+
+    public function getBarre3(): ?string
+    {
+        return $this->barre3;
+    }
+
+    public function setBarre3(?string $barre3): self
+    {
+        $this->barre3 = $barre3;
+
+        return $this;
+    }
+
+    public function getConditionDiffRenteDeCondition1(): ?string
+    {
+        return $this->conditionDiffRenteDeCondition1;
+    }
+
+    public function setConditionDiffRenteDeCondition1(?string $conditionDiffRenteDeCondition1): self
+    {
+        $this->conditionDiffRenteDeCondition1 = $conditionDiffRenteDeCondition1;
+
+        return $this;
+    }
+
+    public function getCondition1bisDeBarre3(): ?string
+    {
+        return $this->condition1bisDeBarre3;
+    }
+
+    public function setCondition1bisDeBarre3(?string $condition1bisDeBarre3): self
+    {
+        $this->condition1bisDeBarre3 = $condition1bisDeBarre3;
+
+        return $this;
+    }
+
+    public function getPoints1DeBarre3(): ?string
+    {
+        return $this->points1DeBarre3;
+    }
+
+    public function setPoints1DeBarre3(?string $points1DeBarre3): self
+    {
+        $this->points1DeBarre3 = $points1DeBarre3;
+
+        return $this;
+    }
+
+    public function getCondition2DeBarre3(): ?string
+    {
+        return $this->condition2DeBarre3;
+    }
+
+    public function setCondition2DeBarre3(?string $condition2DeBarre3): self
+    {
+        $this->condition2DeBarre3 = $condition2DeBarre3;
+
+        return $this;
+    }
+
+    public function getPoints2DeBarre3(): ?string
+    {
+        return $this->points2DeBarre3;
+    }
+
+    public function setPoints2DeBarre3(?string $points2DeBarre3): self
+    {
+        $this->points2DeBarre3 = $points2DeBarre3;
+
+        return $this;
+    }
+
+    public function getCondition3DeBarre3(): ?string
+    {
+        return $this->condition3DeBarre3;
+    }
+
+    public function setCondition3DeBarre3(?string $condition3DeBarre3): self
+    {
+        $this->condition3DeBarre3 = $condition3DeBarre3;
+
+        return $this;
+    }
+
+    public function getPoints3DeBarre3(): ?string
+    {
+        return $this->points3DeBarre3;
+    }
+
+    public function setPoints3DeBarre3(?string $points3DeBarre3): self
+    {
+        $this->points3DeBarre3 = $points3DeBarre3;
+
+        return $this;
+    }
+
+    public function getCondition4DeBarre3(): ?int
+    {
+        return $this->condition4DeBarre3;
+    }
+
+    public function setCondition4DeBarre3(?int $condition4DeBarre3): self
+    {
+        $this->condition4DeBarre3 = $condition4DeBarre3;
+
+        return $this;
+    }
+
+    public function getPoints4DeBarre3(): ?int
+    {
+        return $this->points4DeBarre3;
+    }
+
+    public function setPoints4DeBarre3(?int $points4DeBarre3): self
+    {
+        $this->points4DeBarre3 = $points4DeBarre3;
+
+        return $this;
+    }
+
+    public function getCondition5DeBarre3(): ?int
+    {
+        return $this->condition5DeBarre3;
+    }
+
+    public function setCondition5DeBarre3(?int $condition5DeBarre3): self
+    {
+        $this->condition5DeBarre3 = $condition5DeBarre3;
+
+        return $this;
+    }
+
+    public function getPoints5DeBarre3(): ?int
+    {
+        return $this->points5DeBarre3;
+    }
+
+    public function setPoints5DeBarre3(?int $points5DeBarre3): self
+    {
+        $this->points5DeBarre3 = $points5DeBarre3;
+
+        return $this;
+    }
+
+    public function getCondition6DeBarre3(): ?int
+    {
+        return $this->condition6DeBarre3;
+    }
+
+    public function setCondition6DeBarre3(?int $condition6DeBarre3): self
+    {
+        $this->condition6DeBarre3 = $condition6DeBarre3;
+
+        return $this;
+    }
+
+    public function getPoints6DeBarre3(): ?int
+    {
+        return $this->points6DeBarre3;
+    }
+
+    public function setPoints6DeBarre3(?int $points6DeBarre3): self
+    {
+        $this->points6DeBarre3 = $points6DeBarre3;
+
+        return $this;
+    }
+
+    public function getBarre4(): ?string
+    {
+        return $this->barre4;
+    }
+
+    public function setBarre4(?string $barre4): self
+    {
+        $this->barre4 = $barre4;
+
+        return $this;
+    }
+
+    public function getPoints1DeBarre4(): ?int
+    {
+        return $this->points1DeBarre4;
+    }
+
+    public function setPoints1DeBarre4(?int $points1DeBarre4): self
+    {
+        $this->points1DeBarre4 = $points1DeBarre4;
+
+        return $this;
+    }
+
+    public function getBarre5(): ?string
+    {
+        return $this->barre5;
+    }
+
+    public function setBarre5(?string $barre5): self
+    {
+        $this->barre5 = $barre5;
+
+        return $this;
+    }
+
+    public function getPoints1DeBarre5(): ?int
+    {
+        return $this->points1DeBarre5;
+    }
+
+    public function setPoints1DeBarre5(?int $points1DeBarre5): self
+    {
+        $this->points1DeBarre5 = $points1DeBarre5;
+
+        return $this;
+    }
+
+    public function getMarkerSpcifiques1(): ?string
+    {
+        return $this->markerSpcifiques1;
+    }
+
+    public function setMarkerSpcifiques1(?string $markerSpcifiques1): self
+    {
+        $this->markerSpcifiques1 = $markerSpcifiques1;
+
+        return $this;
+    }
+
+    public function getPoints1DeMarkersSpcifiques1(): ?string
+    {
+        return $this->points1DeMarkersSpcifiques1;
+    }
+
+    public function setPoints1DeMarkersSpcifiques1(?string $points1DeMarkersSpcifiques1): self
+    {
+        $this->points1DeMarkersSpcifiques1 = $points1DeMarkersSpcifiques1;
+
+        return $this;
+    }
+
+    public function getCondition2DeMarkersSpcifiques1(): ?string
+    {
+        return $this->condition2DeMarkersSpcifiques1;
+    }
+
+    public function setCondition2DeMarkersSpcifiques1(?string $condition2DeMarkersSpcifiques1): self
+    {
+        $this->condition2DeMarkersSpcifiques1 = $condition2DeMarkersSpcifiques1;
+
+        return $this;
+    }
+
+    public function getPoints2DeMarkersSpcifiques1(): ?string
+    {
+        return $this->points2DeMarkersSpcifiques1;
+    }
+
+    public function setPoints2DeMarkersSpcifiques1(?string $points2DeMarkersSpcifiques1): self
+    {
+        $this->points2DeMarkersSpcifiques1 = $points2DeMarkersSpcifiques1;
+
+        return $this;
+    }
+
+    public function getCondition3DeMarkersSpcifiques1(): ?string
+    {
+        return $this->condition3DeMarkersSpcifiques1;
+    }
+
+    public function setCondition3DeMarkersSpcifiques1(?string $condition3DeMarkersSpcifiques1): self
+    {
+        $this->condition3DeMarkersSpcifiques1 = $condition3DeMarkersSpcifiques1;
+
+        return $this;
+    }
+
+    public function getPoints3DeMarkersSpcifiques1(): ?string
+    {
+        return $this->points3DeMarkersSpcifiques1;
+    }
+
+    public function setPoints3DeMarkersSpcifiques1(?string $points3DeMarkersSpcifiques1): self
+    {
+        $this->points3DeMarkersSpcifiques1 = $points3DeMarkersSpcifiques1;
+
+        return $this;
+    }
+
+    public function getCondition4DeMarkersSpcifiques1(): ?string
+    {
+        return $this->condition4DeMarkersSpcifiques1;
+    }
+
+    public function setCondition4DeMarkersSpcifiques1(?string $condition4DeMarkersSpcifiques1): self
+    {
+        $this->condition4DeMarkersSpcifiques1 = $condition4DeMarkersSpcifiques1;
+
+        return $this;
+    }
+
+    public function getPoints4DeMarkersSpcifiques1(): ?string
+    {
+        return $this->points4DeMarkersSpcifiques1;
+    }
+
+    public function setPoints4DeMarkersSpcifiques1(?string $points4DeMarkersSpcifiques1): self
+    {
+        $this->points4DeMarkersSpcifiques1 = $points4DeMarkersSpcifiques1;
+
+        return $this;
+    }
+
+    public function getCondition5DeMarkersSpcifiques1(): ?string
+    {
+        return $this->condition5DeMarkersSpcifiques1;
+    }
+
+    public function setCondition5DeMarkersSpcifiques1(?string $condition5DeMarkersSpcifiques1): self
+    {
+        $this->condition5DeMarkersSpcifiques1 = $condition5DeMarkersSpcifiques1;
+
+        return $this;
+    }
+
+    public function getPoints5DeMarkersSpcifiques1(): ?int
+    {
+        return $this->points5DeMarkersSpcifiques1;
+    }
+
+    public function setPoints5DeMarkersSpcifiques1(?int $points5DeMarkersSpcifiques1): self
+    {
+        $this->points5DeMarkersSpcifiques1 = $points5DeMarkersSpcifiques1;
+
+        return $this;
+    }
+
+    public function getCondition6DeMarkersSpcifiques1(): ?string
+    {
+        return $this->condition6DeMarkersSpcifiques1;
+    }
+
+    public function setCondition6DeMarkersSpcifiques1(?string $condition6DeMarkersSpcifiques1): self
+    {
+        $this->condition6DeMarkersSpcifiques1 = $condition6DeMarkersSpcifiques1;
+
+        return $this;
+    }
+
+    public function getPoints6DeMarkersSpcifiques1(): ?int
+    {
+        return $this->points6DeMarkersSpcifiques1;
+    }
+
+    public function setPoints6DeMarkersSpcifiques1(?int $points6DeMarkersSpcifiques1): self
+    {
+        $this->points6DeMarkersSpcifiques1 = $points6DeMarkersSpcifiques1;
+
+        return $this;
+    }
+
+    public function getMarkerSpcifiques2(): ?string
+    {
+        return $this->markerSpcifiques2;
+    }
+
+    public function setMarkerSpcifiques2(?string $markerSpcifiques2): self
+    {
+        $this->markerSpcifiques2 = $markerSpcifiques2;
+
+        return $this;
+    }
+
+    public function getPoints1DeMarkersSpcifiques2(): ?string
+    {
+        return $this->points1DeMarkersSpcifiques2;
+    }
+
+    public function setPoints1DeMarkersSpcifiques2(?string $points1DeMarkersSpcifiques2): self
+    {
+        $this->points1DeMarkersSpcifiques2 = $points1DeMarkersSpcifiques2;
+
+        return $this;
+    }
+
+    public function getMarkerSpcifiques3(): ?string
+    {
+        return $this->markerSpcifiques3;
+    }
+
+    public function setMarkerSpcifiques3(?string $markerSpcifiques3): self
+    {
+        $this->markerSpcifiques3 = $markerSpcifiques3;
+
+        return $this;
+    }
+
+    public function getPoints1DeMarkersSpcifiques3(): ?int
+    {
+        return $this->points1DeMarkersSpcifiques3;
+    }
+
+    public function setPoints1DeMarkersSpcifiques3(?int $points1DeMarkersSpcifiques3): self
+    {
+        $this->points1DeMarkersSpcifiques3 = $points1DeMarkersSpcifiques3;
+
+        return $this;
+    }
+
+
 }
