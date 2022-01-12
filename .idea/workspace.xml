@@ -16,13 +16,13 @@
     <execution />
   </component>
   <component name="DarkyenusTimeTracker">
-    <option name="totalTimeSeconds" value="1979" />
+    <option name="totalTimeSeconds" value="2197" />
   </component>
   <component name="FormatOnSaveOptions">
     <option name="myRunOnSave" value="true" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/src/Controller/ApiController.php" root0="FORCE_HIGHLIGHTING" root1="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/src/Controller/ApiController.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/Entity/TestDev.php" root0="FORCE_HIGHLIGHTING" root1="SKIP_INSPECTION" />
   </component>
   <component name="PhpWorkspaceProjectConfiguration">
@@ -200,7 +200,7 @@
       <workItem from="1641846730178" duration="8795000" />
       <workItem from="1641895859163" duration="21207000" />
       <workItem from="1641987247478" duration="805000" />
-      <workItem from="1641989449418" duration="10502000" />
+      <workItem from="1641989449418" duration="10719000" />
     </task>
     <servers />
   </component>
