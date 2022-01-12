@@ -1,13 +1,18 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Welcome!{% endblock %}</title>
     <link rel="icon"
           href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
     {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
-    <link rel="stylesheet" href="/css/grad.css"/>
-    <script src="/js/drag.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{{ asset('css/grad.css') }}"/>
+    <script src="{{ asset('js/jquery.json-editor.min.js') }}"></script>
+    <script src="{{ asset('js/drag.js') }}"></script>
+
     {% block stylesheets %}
 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.css"
@@ -15,7 +20,7 @@
     {% endblock %}
 
     {% block javascripts %}
-      
+
     {% endblock %}
 </head>
 <body>

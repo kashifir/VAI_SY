@@ -5,11 +5,7 @@ namespace App\Repository;
 use App\Entity\TestDev;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\AbstractQuery;
-use Doctrine\ORM\Query;
-use Doctrine\ORM\Query\ResultSetMapping;
-use Doctrine\ORM\Query\ResultSetMappingBuilder;
 use Doctrine\Persistence\ManagerRegistry;
-use phpDocumentor\Reflection\Types\Integer;
 
 
 /**
@@ -20,6 +16,8 @@ use phpDocumentor\Reflection\Types\Integer;
  */
 class TestDevRepository extends ServiceEntityRepository
 {
+
+
     /**
      * TestDevRepository constructor
      * @param ManagerRegistry $registry
@@ -38,25 +36,24 @@ class TestDevRepository extends ServiceEntityRepository
         $entityManager = $this->getEntityManager();
 
         $query = $entityManager->createQuery(
-            'select t
+            'select t.noms
             from App\Entity\TestDev t
            where t.noms = :nom AND
             t.unitDeMesure = :unitDeMesure AND
             (t.sexe= :sexe OR t.sexe = :vide)
-            AND 
-            ((:age >= t.thresholdAgeMin  AND :age <= t.thresholdAgeMmx ) 
-            OR 
-            (t.thresholdAgeMin = :vide OR  t.thresholdAgeMmx = :vide))
-            ')
+            AND
+            ((t.thresholdAgeMin <= :age AND  t.thresholdAgeMax >= :age)
+            OR
+            (t.thresholdAgeMin = 0 AND  t.thresholdAgeMax = 0 )
+            OR(:age > t.thresholdAgeMin AND  t.thresholdAgeMax = 0 )
+            )')
             ->setParameter('nom', $nom)
             ->setParameter('unitDeMesure', $Unit_de_mesure)
             ->setParameter('sexe', $sexe)
-            ->setParameter('vide', "")
             ->setParameter('age', $age)
-            ->setMaxResults(1);
+            ->setParameter('vide', "");
 
-       
-        return $query->getResult(AbstractQuery::HYDRATE_ARRAY);
+        return $query->getResult();
     }
 
 }

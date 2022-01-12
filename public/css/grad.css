@@ -213,7 +213,8 @@
 }
 
 .dropzone {
-    min-height: 150px;
+    max-height: 250px !important;
+    width: 100% !important; ;
     border: 2px solid rgba(0, 0, 0, 0.3);
     background: white;
     padding: 20px 20px;
@@ -515,4 +516,24 @@
     border-left: 6px solid transparent;
     border-right: 6px solid transparent;
     border-bottom: 6px solid #be2626;
+}
+
+
+#json-input {
+    display: block;
+    width: 100%;
+    height: 200px;
+}
+#translate {
+    display: block;
+    height: 28px;
+    margin: 20px 0;
+    border-radius: 3px;
+    border: 2px solid;
+    cursor: pointer;
+}
+#json-display {
+    border: 1px solid #000;
+    margin: 0;
+    padding: 10px 20px;
 }
