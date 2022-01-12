@@ -1168,6 +1168,7 @@ class ApiController extends AbstractController
         $sexe = $request->request->get("sexe");
         $age = $request->request->get("age");
         $data = $request->request->get("data");
+        $postion = "";
 
         // $test = $doctrine->getRepository(ExcelTable::class)->getTestBy($nom, $Unit_de_mesure, $sexe, $age);
         // $reponse[] = $this->getresTest($test, $data);
@@ -1178,7 +1179,8 @@ class ApiController extends AbstractController
             $sexe,
             $age
         );
-        $reponse = $this->getresTest($test[0], $data);
+        $reponse = [];
+        $reponse = $this->getresTest($test[0], $data, $postion, $reponse);
 
         return $this->json($reponse);
     }
