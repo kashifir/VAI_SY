@@ -28,6 +28,7 @@ class ApiController extends AbstractController
     {
         $data = $this->xslx($request);
         $reponse = [];
+        $objdata = [];
         foreach ($data as $val) {
             $objdata[] = [
                 'Noms' => $val['B'],
