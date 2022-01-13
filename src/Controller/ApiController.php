@@ -959,31 +959,31 @@ class ApiController extends AbstractController
                 break;
             case '>= 17,7 - 18,8 =<':
                 if (floatval($data) >= floatval("17,7") && floatval($data) <= floatval("18,8")) {
-                    $repose['Marker1']['point'] = $test->getPoints3DeMarkersSpcifiques1();
+                    $repose['Marker1']['point'] = $test->getPoints3DeMarkersSpecifiques1();
                     $repose['Marker1']['condition'] = $test->getCondition3DeMarkersSpecifiques1();
                 }
                 break;
             case '>= 22,5 - 23,4 =<':
                 if (floatval($data) >= floatval("22,5") && floatval($data) <= floatval("23,4")) {
-                    $repose['Marker1']['point'] = $test->getPoints3DeMarkersSpcifiques1();
+                    $repose['Marker1']['point'] = $test->getPoints3DeMarkersSpecifiques1();
                     $repose['Marker1']['condition'] = $test->getCondition3DeMarkersSpecifiques1();
                 }
                 break;
             case '> 11,5':
                 if (floatval($data) >= floatval("11,5")) {
-                    $repose['Marker1']['point'] = $test->getPoints3DeMarkersSpcifiques1();
+                    $repose['Marker1']['point'] = $test->getPoints3DeMarkersSpecifiques1();
                     $repose['Marker1']['condition'] = $test->getCondition3DeMarkersSpecifiques1();
                 }
                 break;
             case '> 12,5':
                 if (floatval($data) >= floatval("12,5")) {
-                    $repose['Marker1']['point'] = $test->getPoints3DeMarkersSpcifiques1();
+                    $repose['Marker1']['point'] = $test->getPoints3DeMarkersSpecifiques1();
                     $repose['Marker1']['condition'] = $test->getCondition3DeMarkersSpecifiques1();
                 }
                 break;
             case '>=4 <5':
                 if ($data >= 4 && $data < 5) {
-                    $repose['Marker1']['point'] = $test->getPoints3DeMarkersSpcifiques1();
+                    $repose['Marker1']['point'] = $test->getPoints3DeMarkersSpecifiques1();
                     $repose['Marker1']['condition'] = $test->getCondition3DeMarkersSpecifiques1();
                 }
                 break;
@@ -1181,9 +1181,9 @@ class ApiController extends AbstractController
             $age
         );
         $reponse = [];
-        $reponse = $this->getresTest($test[0], $data, $postion, $reponse);
+       // $reponse = $this->getresTest($test[0], $data, $postion, $reponse);
 
-        return $this->json($reponse);
+        return $this->json($test);
     }
 
 }
