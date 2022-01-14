@@ -3,27 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Welcome!{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon"
           href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-    {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-            crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="{{ asset('css/grad.css') }}"/>
-    <script src="{{ asset('js/jquery.json-editor.min.js') }}"></script>
-    <script src="{{ asset('js/drag.js') }}"></script>
-    
-
     {% block stylesheets %}
-
-
+        {{ encore_entry_link_tags('app') }}
     {% endblock %}
 
     {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
 
     {% endblock %}
 </head>
 <body>
-{% block body %}{% endblock %}
+<div class="container-fluid">
+    {% include "partiel/nav.html.twig" %}
+</div>
+    <main class="container-fluid mt-3">
+        {% block body %}{% endblock %}
+    </main>
+
+
+
+
 </body>
 </html>

@@ -24,27 +24,7 @@
     </div>
 
 {% endblock %}
-{% block javascripts %}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.css"
-          integrity="sha256-e47xOkXs1JXFbjjpoRr1/LhVcqSzRmGmPqsrUQeVs+g=" crossorigin="anonymous"/>
-    <script>
-        Dropzone.autoDiscover = false;
-        $(function () {
-            uploader = new Dropzone(".dropzone", {
-                url: "{{ path('api_v1_test') }}",
-                paramName: "file",
-                uploadMultiple: false,
-                addRemoveLinks: true,
-                forceFallback: false,
-            });//end drop zone
 
-            uploader.on("success", function (file, response) {
-                var editor = new JsonEditor('#json-display', response);
-                //  editor.load(response);
-            });
-        });//end jq
-    </script>
-{% endblock %}
 
 
 

@@ -1,0 +1,122 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello MainController!{% endblock %}
+{% block javascripts %}
+
+    <script type="text/javascript" src="http://d3js.org/d3.v4.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="{{ asset('build/js/d3gauge.js') }}" charset="utf-8"></script>
+    <script>
+
+        var gauges = []
+        document.addEventListener("DOMContentLoaded", function (event) {
+            var opt = {
+                gaugeRadius: 100,
+                minVal: 0,
+                maxVal: 100,
+                needleVal: Math.round(100),
+                tickSpaceMinVal: 1,
+                tickSpaceMajVal: 10,
+                divID: "gaugeBox",
+                gaugeUnits: "%"
+            }
+            gauges[0] = new drawGauge(opt);
+        })
+        document.addEventListener("DOMContentLoaded", function (event) {
+            var opt = {
+                gaugeRadius: 100,
+                minVal: 0,
+                maxVal: 100,
+                needleVal: Math.round(90),
+                tickSpaceMinVal: 1,
+                tickSpaceMajVal: 10,
+                divID: "gaugeBox1",
+                gaugeUnits: "%"
+            }
+
+            gauges[1] = new drawGauge(opt);
+
+        });
+        document.addEventListener("DOMContentLoaded", function (event) {
+            var opt = {
+                gaugeRadius: 100,
+                minVal: 0,
+                maxVal: 100,
+                needleVal: Math.round(20),
+                tickSpaceMinVal: 1,
+                tickSpaceMajVal: 10,
+                divID: "gaugeBox2",
+                gaugeUnits: "%"
+            }
+
+            gauges[2] = new drawGauge(opt);
+
+        });
+        document.addEventListener("DOMContentLoaded", function (event) {
+            var opt = {
+                gaugeRadius: 100,
+                minVal: 0,
+                maxVal: 100,
+                needleVal: Math.round(30),
+                tickSpaceMinVal: 1,
+                tickSpaceMajVal: 10,
+                divID: "gaugeBox3",
+                gaugeUnits: "%"
+            }
+
+            gauges[3] = new drawGauge(opt);
+
+        })
+    </script>
+
+{% endblock %}
+{% block body %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-4 border-2 border-dark bg-dark p-3">
+                <form action="">
+                    <fieldset class="form-fieldset ui-input __first">
+                        <input type="text" id="Surname" tabindex="0" />
+                        <label for="Surname">
+                            <span data-text="Surname">Surname</span>
+                        </label>
+                    </fieldset>
+                    <fieldset class="form-fieldset ui-input __first">
+                        <input type="text" id="name" tabindex="0" />
+                        <label for="name">
+                            <span data-text="name">Name</span>
+                        </label>
+                    </fieldset>
+                    <fieldset class="form-fieldset ui-input __first">
+                        <input type="date" id="Date de naissance" tabindex="0" />
+                        <label for="Date de naissance">
+                            <span data-text="Date de naissance">Date de naissance</span>
+                        </label>
+                    </fieldset>
+                    <div class="row">
+                        <fieldset class="col-6 form-fieldset ui-input __first">
+                            <input type="text" id="age" tabindex="0" />
+                            <label for="age">
+                                <span data-text="age">Age</span>
+                            </label>
+                        </fieldset>
+                        <fieldset class="col-6 form-fieldset ui-input __second">
+                            <select name="sexe" id="sexe">
+                                <option value="H">Man</option>
+                                <option value="F">WoaMan</option>
+
+                            </select>
+                        </fieldset>
+                    </div>
+
+
+                </form>
+            </div>
+            <div class="col-8">
+                qsdqsdq
+            </div>
+        </div>
+
+    </div>
+
+
+{% endblock %}
