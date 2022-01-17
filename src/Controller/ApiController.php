@@ -11,17 +11,39 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use Nelmio\ApiDocBundle\Annotation\Security;
+use OpenApi\Annotations as OA;
 
 
 class ApiController extends AbstractController
 {
     /**
-     * @Route ("/api/v1/test",name="api_v1_test",methods={"POST"})
+     *
      * @param ManagerRegistry $doctrine
      * @param Request $request
      * @return JsonResponse
      *
      * @throws Exception
+     * List the rewards of the specified user.
+     *
+     * This call takes into account all confirmed awards, but not pending or refused awards.
+     *
+     * @Route ("/api/v1/test",name="api_v1_test",methods={"POST"})
+     *
+     * @OA\Response(
+     *     response=200,
+     *     description="Returns the rewards of an user",
+     *     @Model(type=TESTDEV::class, groups={"non_sensitive_data"})
+     * )
+     * @OA\Parameter(
+     *     name="request",
+     *     in="query",
+     *     description="The field used to order rewards",
+     *     @OA\Schema(type="string")
+     * )
+     * @OA\Tag(name="request")
+     *
      */
     final public function getFileTest(ManagerRegistry $doctrine, Request $request): JsonResponse
     {
@@ -50,16 +72,12 @@ class ApiController extends AbstractController
                 }
                 if ($val['Noms'] === "position/sport" || $val['Noms'] === "Position/Sport") {
                     $postion = $val['data'];
-                    continue;
+
                 }
             } elseif ($val['data'] === null) {
                 continue;
             } else {
-                if ($val['Unit_de_mesure'] === null) {
-                    $Unit_de_mesure = ' ';
-                } else {
-                    $Unit_de_mesure = $val['Unit_de_mesure'];
-                }
+                $Unit_de_mesure = $val['Unit_de_mesure'] ?? ' ';
 
                 $data = $val['data'];
                 $nom = $val['Noms'];
@@ -88,14 +106,14 @@ class ApiController extends AbstractController
         $file = $request->files->get('file'); // get the file from the sent request
         $fileFolder = __DIR__ . '/../../public/uploads/';  //choose the folder in which the uploaded file will be stored
         $filePathName = $file->getClientOriginalName();
-        // apply md5 function to generate an unique identifier for the file and concat it with the file extension
+        // apply md5 function to generate a unique identifier for the file and concat it with the file extension
         try {
             $file->move($fileFolder, $filePathName);
         } catch (FileException $e) {
             return $e;
         }
-        $spreadsheet = IOFactory::load($fileFolder . $filePathName); // Here we are able to read from the excel file
-        $row = $spreadsheet->getActiveSheet()->removeRow(1); // I added this to be able to remove the first file line
+        $spreadsheet = IOFactory::load($fileFolder . $filePathName); // Here we are able to read from the Excel file
+        //$row = $spreadsheet->getActiveSheet()->removeRow(1); // I added this to be able to remove the first file line
         // here, the read data is turned into an array
         return $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
     }
@@ -1107,9 +1125,10 @@ class ApiController extends AbstractController
      */
     public
     function getFalArr(
-        mixed $test,
+        mixed                      $test,
         float|bool|int|string|null $data
-    ): array {
+    ): array
+    {
         return $repose[] = [
             'Noms' => $test->getNoms(),
             'Unit_de_mesure' => $test->getUnitDeMesure(),
@@ -1180,7 +1199,7 @@ class ApiController extends AbstractController
             $age
         );
         $reponse = [];
-       // $reponse = $this->getresTest($test[0], $data, $postion, $reponse);
+        // $reponse = $this->getresTest($test[0], $data, $postion, $reponse);
 
         return $this->json($test);
     }

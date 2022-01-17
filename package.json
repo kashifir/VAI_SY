@@ -24,6 +24,7 @@
         "dropzone": "^6.0.0-beta.2",
         "jquery": "^3.6.0",
         "jquery.json-viewer": "^1.4.0",
-        "jsoneditor": "^9.6.0"
+        "jsoneditor": "^9.6.0",
+        "select2": "^4.1.0-rc.0"
     }
 }

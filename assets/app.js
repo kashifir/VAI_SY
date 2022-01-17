@@ -10,6 +10,7 @@
 import './styles/app.scss';
 
 import './js/drag'
+ // optional if you have css loader
 
 
 
