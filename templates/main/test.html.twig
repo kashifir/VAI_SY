@@ -2,11 +2,17 @@
 
 {% block title %}Hello MainController!{% endblock %}
 
+
 {% block javascripts %}
+    <script type="text/javascript" src="{{ asset('build/js/drag.js') }}" charset="utf-8"></script>
     <script type="text/javascript" src="http://d3js.org/d3.v4.min.js" charset="utf-8"></script>
     <script type="text/javascript" src="{{ asset('build/js/d3gauge.js') }}" charset="utf-8"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
     <script>
+
 
         var gauges = []
         document.addEventListener("DOMContentLoaded", function (event) {
@@ -92,100 +98,115 @@
         })
 
 
-        $(document).ready(function () {
-            $("form").submit(function (event) {
-                var formData = {
-                    Name: $("#prenom").val(),
-                    Surname: $("#nom").val(),
-                    'Position/Sport': $("#Position").val(),
-                    sexe: $('#sexe').val(),
-                };
 
-                $.ajax({
-                    type: "POST",
-                    url: "{{ path("api_v1_fromtest") }}",
-                    data: formData,
-                    dataType: "json",
-                    encode: true,
-                }).done(function (data) {
-                    console.log(data);
+        $(document).ready(function() {
+            var $formHeight = $('#form_height');
+            var $formWeight = $('#form_Weight');
+            var $formBMI = $('#form_BMI');
+                $formWeight.on('change', function (e) {
+                    if($formHeight.val() !== 0)
+                    $formBMI.val($formWeight.val()/$formHeight.val()^2)
                 });
-
-                event.preventDefault();
-            });
         });
+
+
 
     </script>
 
 {% endblock %}
 {% block body %}
     <div class="grid">
-       <div class="col-left">
-           <form method="post">
-               <label for="fname">Prénom : </label>
-               <input type="text" id="prenom" name="prenom" placeholder="Prénom : ">
-               <label for="lname">Nom  : </label>
-               <input type="text" id="nom" name="Noms" placeholder="Nom">
-               <label for="lname">Date de naissance  : </label>
-               <input type="date" id="lname" name="naissance" placeholder="Date de naissance">
-               <div class="colfrom">
-                   <div class="left">
-                       <label for="lname">Age  : </label>
-                       <input type="number" id="lname" name="age" placeholder="Age">
-                   </div>
-                   <div class="right">
-                       <label for="sexe">Sexe : </label>
-                       <select id="sexe" name="sexe">
-                           <option value="H">Man</option>
-                           <option value="F">WoMan</option>
-                       </select></div>
-               </div>
-               <div class="colfrom">
-                   <div class="left">
-                       <label for="lname">Taille  : </label>
-                       <input type="number" id="lname" name="Taille" placeholder="Taille">
-                   </div>
-                   <div class="right">
-                       <label for="lname">Poids  : </label>
-                       <input type="number" id="lname" name="Poids" placeholder="Poids">
-                   </div>
-               </div>
+        <div class="col-left">
+            {{ form_start(form) }}
+            <div class="my-custom-class-for-errors">
+                {{ form_errors(form) }}
+            </div>
+            <div class="row">
+                <div class="col">
+                    {{ form_errors(form.noms) }}
+                    {{ form_label(form.noms) }}
+                    {{ form_widget(form.noms) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col" id="some-custom-id">
+                    {{ form_errors(form.prenom) }}
+                    {{ form_label(form.prenom) }}
+                    {{ form_widget(form.prenom) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    {{ form_errors(form.date_of_birth) }}
+                    {{ form_label(form.date_of_birth) }}
+                    {{ form_widget(form.date_of_birth) }}
+                </div>
+                <div class="col" id="some-custom-id">
+                    {{ form_errors(form.age) }}
+                    {{ form_label(form.age) }}
+                    {{ form_widget(form.age) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    {{ form_errors(form.height) }}
+                    {{ form_label(form.height) }}
+                    {{ form_widget(form.height) }}
+                </div>
+                <div class="col">
+                    {{ form_errors(form.Weight) }}
+                    {{ form_label(form.Weight) }}
+                    {{ form_widget(form.Weight) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    {{ form_errors(form.BMI) }}
+                    {{ form_label(form.BMI) }}
+                    {{ form_widget(form.BMI) }}
+                </div>
+                <div class="col">
+                    {{ form_errors(form.position_sport) }}
+                    {{ form_label(form.position_sport) }}
+                    {{ form_widget(form.position_sport) }}
+                </div>
+                <div class="col">
+                    {{ form_errors(form.Favorable_background_conditions) }}
+                    {{ form_label(form.Favorable_background_conditions) }}
+                    {{ form_widget(form.Favorable_background_conditions) }}
+                </div>
+            </div>
 
-               <div class="colfrom">
-                   <div class="left">
-                       <label for="lname">BMI  : </label>
-                       <input type="number" id="lname" name="bmi" placeholder="BMI">
-                   </div>
-                   <div class="right">
-                       <label for="lname">Group sanguin  : </label>
-                       <input type="number" id="lname" name="group_sanguin" placeholder="Group sanguin">
-                   </div>
-               </div>
-               <div class="colfrom">
-                   <div class="left">
-                       <label for="lname">Terrain  : </label>
-                       <input type="number" id="lname" name="terrain" placeholder="terrain">
-                   </div>
-                   <div class="right">
-                       <label for="lname">Pression  : </label>
-                       <input type="number" id="lname" name="Pression" placeholder="Pression">
-                   </div>
-               </div>
-               <div class="dropzone my-dropzone" id="form_snippet_image" action="{{ path('api_v1_test') }}"></div>
+            <div class="row">
+                <div class="col">
+                    {{ form_errors(form.sexe) }}
+                    {{ form_label(form.sexe) }}
+                    {{ form_widget(form.sexe) }}
+                </div>
+                <div class="col" id="some-custom-id">
 
-               <button type="submit" class="btn btn-success">
-                   Submit
-               </button>
-           </form>
+                    {{ form_errors(form.bloodGroup) }}
+                    {{ form_label(form.bloodGroup) }}
+                    {{ form_widget(form.bloodGroup) }}
+                </div>
+            </div>
 
-       </div>
+            <div class="d-grid gap-2">
+                {{ form_widget(form.send, {'attr': {'class': 'btn btn-primary'}}) }}
+                <a class="btn btn-primary" href="#open-modal">👋 Uplode file</a>
+            </div>
+
+
+            {{ form_end(form) }}
+
+        </div>
         <div class="col-right">
             <div class="col-g-1">
                 <p>Risque général</p>
                 <div class="bord">
-                <div id="gaugeBox1"></div>
-                Puissance de précision
-                <div class="col-g-2"><input type="text"><input type="text"></div>
+                    <div id="gaugeBox1"></div>
+                    Puissance de précision
+                    <div class="col-g-2"><input type="text"><input type="text"></div>
                 </div>
 
             </div>
@@ -228,4 +249,23 @@
 
         </div>
     </div>
+    <!-- Modal -->
+    <div id="open-modal" class="modal-window">
+        <div>
+            <a href="#" title="Close" class="modal-close">Close</a>
+            <h1>Voilà!</h1>
+            <div class="my-dropzone"></div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
 {% endblock %}

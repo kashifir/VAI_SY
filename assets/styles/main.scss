@@ -12,7 +12,7 @@ $base-font-family: "Avenir Next", "Avenir", "Helvetica Neue", Helvetica, Arial, 
   animation-iteration-count: $count;
 }
 
-input[type=text],input[type=date],input[type=number],select, textarea {
+input[type=text],input[type=date],input[type=number], select, option, textarea {
   width: 100%;
   padding: 12px;
   border: 1px solid #ccc;
@@ -20,7 +20,6 @@ input[type=text],input[type=date],input[type=number],select, textarea {
   box-sizing: border-box;
   margin-top: 6px;
   margin-bottom: 16px;
-  resize: vertical;
 }
 
 input[type=submit] {
@@ -78,6 +77,82 @@ iframe {
   grid-template-columns: 49% 49%;
   grid-gap: 1%;
 }
+
+.modal-window {
+  position: fixed;
+  background-color: rgba(255, 255, 255, 0.25);
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 999;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s;
+  &:target {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+  }
+  & > div {
+    width: 400px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 2em;
+    background: white;
+    border-color: #0dcaf0;
+  }
+  header {
+    font-weight: bold;
+  }
+  h1 {
+    font-size: 150%;
+    margin: 0 0 15px;
+  }
+}
+
+.modal-close {
+  color: #aaa;
+  line-height: 50px;
+  font-size: 80%;
+  position: absolute;
+  right: 0;
+  text-align: center;
+  top: 0;
+  width: 70px;
+  text-decoration: none;
+  &:hover {
+    color: black;
+  }
+}
+
+/* Demo Styles */
+
+
+a {
+  color: inherit;
+}
+
+
+.modal-window {
+  & > div {
+    border-radius: 1rem;
+    border-color: #0dcaf0;
+  }
+}
+
+.modal-window div:not(:last-of-type) {
+  margin-bottom: 15px;
+}
+
+small {
+  color: lightgray;
+}
+
+
 
 
 

@@ -13,78 +13,14 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use OpenApi\Annotations as OA;
 
 
 class ApiController extends AbstractController
 {
-    /**
-     *
-     * @param ManagerRegistry $doctrine
-     * @param Request $request
-     * @return JsonResponse
-     *
-     * @throws Exception
-     *
-     * @Route ("/api/v1/testbyfrom",name="api_v1_fromtest",methods={"POST"})
-     */
-    final public function getTest(ManagerRegistry $doctrine, Request $request): JsonResponse
-    {
-
-        $data = $request->getContent();
-     //
-      /*  $data = $this->xslx($request);
-
-
-        $reponse = [];
-        $objdata = [];
-        foreach ($data as $val) {
-            $objdata[] = [
-                'Noms' => $val['B'],
-                'Unit_de_mesure' => $val['C'],
-                'data' => $val['D']
-            ];
-        }
-        $sexe = "";
-        $age = 0;
-        $postion = "";
-        foreach ($objdata as $x => $val) {
-            if ($val['Noms'] === "man or woman" || $val['Noms'] === "Man or Woman" || $val['Noms'] === "Age" || $val['Noms'] === "age" || $val['Noms'] === 'Position/Sport' || $val['Noms'] === 'position/sport') {
-                if ($val['Noms'] === "man or woman" || $val['Noms'] === "Man or Woman") {
-                    $sexe = $val['data'];
-                    continue;
-                }
-                if ($val['Noms'] === "Age" || $val['Noms'] === "age") {
-                    $age = $val['data'];
-                    continue;
-                }
-                if ($val['Noms'] === "position/sport" || $val['Noms'] === "Position/Sport") {
-                    $postion = $val['data'];
-
-                }
-            } elseif ($val['data'] === null) {
-                continue;
-            } else {
-                $Unit_de_mesure = $val['Unit_de_mesure'] ?? ' ';
-
-                $data = $val['data'];
-                $nom = $val['Noms'];
-
-                $test = $doctrine->getRepository(Mainset::class)->getTestBy(
-                    $nom,
-                    $Unit_de_mesure,
-                    $sexe,
-                    $age
-                );
-                $reponse[] = $this->getresTest($test[0], $data, $postion, $reponse);
-            }
-        }
-*/
-        return new JsonResponse($data);
-    }
-
-
-
     /**
      *
      * @param ManagerRegistry $doctrine
@@ -102,9 +38,9 @@ class ApiController extends AbstractController
         $objdata = [];
         foreach ($data as $val) {
             $objdata[] = [
-                'Noms' => $val['B'],
-                'Unit_de_mesure' => $val['C'],
-                'data' => $val['D']
+                'Noms' => $val['A'],
+                'Unit_de_mesure' => $val['B'],
+                'data' => $val['C']
             ];
         }
         $sexe = "";
