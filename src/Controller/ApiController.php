@@ -47,6 +47,9 @@ class ApiController extends AbstractController
         $age = 0;
         $postion = "";
         foreach ($objdata as $x => $val) {
+            if($val["Noms"] === "date" || $val['Noms'] === "Date"){
+                continue;
+            }
             if ($val['Noms'] === "man or woman" || $val['Noms'] === "Man or Woman" || $val['Noms'] === "Age" || $val['Noms'] === "age" || $val['Noms'] === 'Position/Sport' || $val['Noms'] === 'position/sport') {
                 if ($val['Noms'] === "man or woman" || $val['Noms'] === "Man or Woman") {
                     $sexe = $val['data'];

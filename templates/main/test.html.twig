@@ -14,6 +14,7 @@
     <script>
 
 
+
         var gauges = []
         document.addEventListener("DOMContentLoaded", function (event) {
             var opt = {
@@ -97,8 +98,6 @@
             gauges[3] = new drawGauge(opt);
         })
 
-
-
         $(document).ready(function() {
             var $formHeight = $('#form_height');
             var $formWeight = $('#form_Weight');
@@ -111,8 +110,27 @@
 
 
 
+
     </script>
 
+
+    <script>
+        $(document).ready(function(){
+            $('.btn').click(function(){
+                var form = document.getElementById('myform');
+                $.ajax({
+                    url: {{ path('api_v1_test') }},
+                    method: 'POST',
+                    data: new FormData(form),
+                    processData: false,
+                    contentType: false,
+                    success: function(r) {
+                        console.log(r);
+                    }
+                });
+            });
+        });
+    </script>
 {% endblock %}
 {% block body %}
     <div class="grid">
@@ -254,18 +272,12 @@
         <div>
             <a href="#" title="Close" class="modal-close">Close</a>
             <h1>Voilà!</h1>
-            <div class="my-dropzone"></div>
+            <form id="myform" method="post">
+                <input type="file" name="upload" />
+                <input type="submit" class="btn">
+            </form>
         </div>
     </div>
-
-
-
-
-
-
-
-
-
 
 
 {% endblock %}
