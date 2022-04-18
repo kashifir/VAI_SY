@@ -33,6 +33,7 @@ class ApiController extends AbstractController
      */
     final public function getFileTest(ManagerRegistry $doctrine, Request $request): JsonResponse
     {
+
         $data = $this->xslx($request);
         $reponse = [];
         $objdata = [];
@@ -47,7 +48,7 @@ class ApiController extends AbstractController
         $age = 0;
         $postion = "";
         foreach ($objdata as $x => $val) {
-            if($val["Noms"] === "date" || $val['Noms'] === "Date"){
+            if ($val["Noms"] === "date" || $val['Noms'] === "Date") {
                 continue;
             }
             if ($val['Noms'] === "man or woman" || $val['Noms'] === "Man or Woman" || $val['Noms'] === "Age" || $val['Noms'] === "age" || $val['Noms'] === 'Position/Sport' || $val['Noms'] === 'position/sport') {
@@ -77,10 +78,11 @@ class ApiController extends AbstractController
                     $sexe,
                     $age
                 );
+                //$reponse = $test;
                 $reponse[] = $this->getresTest($test[0], $data, $postion, $reponse);
             }
         }
-
+        dump($reponse);
         return new JsonResponse($reponse);
     }
 
@@ -723,7 +725,7 @@ class ApiController extends AbstractController
                 }
                 break;
             case '>= 10 - 12 <':
-                if ($data >= 10 && 12 < $data ) {
+                if ($data >= 10 && 12 < $data) {
                     $repose['bar2']['condition'] = $test->getCondition2DeBarre2();
                     $repose['bar2']['point'] = $test->getPoints2DeBarre2();
                 }
@@ -794,7 +796,7 @@ class ApiController extends AbstractController
                     $repose['bar2']['condition'] = $test->getCondition3DeBarre2();
                     $repose['bar2']['point'] = $test->getPoints3DeBarre2();
                 }
-            break;
+                break;
             case 'Si clinic + imaging + (Acide ialuronique ou PRP ou Stem cells ou cortisone) = Yes':
                 if (strtolower($data) == 'yes') {
                     $repose['bar2']['condition'] = $test->getCondition3DeBarre2();
