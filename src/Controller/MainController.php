@@ -202,7 +202,7 @@ class MainController extends AbstractController
                     $list[] = [
                         $test->getNoms(),
                         $test->getUnitDeMesure(),
-                        $data['BMI']
+                        $data['bmit']
                     ];
                 } elseif ($test->getNoms() === "Favorable background conditions") {
                     $list[] = [
