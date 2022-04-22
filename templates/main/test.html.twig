@@ -8,8 +8,40 @@
      <script type="text/javascript" src={{ asset('build/js/d3.v4.min.js') }} charset="utf-8"></script>
      <script type="text/javascript" src="{{ asset('build/js/d3gauge.js') }}" charset="utf-8"></script>
 
+     <script>
+         function handler(e){
 
+             var dob = new Date(e.target.value);
+             //calculate month difference from current date in time
+             var month_diff = Date.now() - dob.getTime();
 
+             //convert the calculated difference in date format
+             var age_dt = new Date(month_diff);
+
+             //extract year from date
+             var year = age_dt.getUTCFullYear();
+
+             //now calculate the age of the user
+             var age = Math.abs(year - 1970);
+
+             //display the calculated age
+             document.getElementById('form_age').value = age;
+         }
+
+         function BMI(e){
+             if(document.getElementById('form_height').value != '' && document.getElementById('form_Weight').value != ''){
+                 var h = document.getElementById('form_height').value;
+                 var w = document.getElementById('form_Weight').value;
+                 // Fixing upto 2 decimal places
+                 let bmi = (w / ((h * h)
+                     / 10000)).toFixed(2);
+
+                 console.log(bmi)
+                 document.getElementById('form_bmit').value = bmi;
+             }
+         }
+
+     </script>
  {% endblock %}
 {% block body %}
     <div class="grid">
@@ -58,9 +90,9 @@
             </div>
             <div class="row">
                 <div class="col">
-                    {{ form_errors(form.BMI) }}
-                    {{ form_label(form.BMI) }}
-                    {{ form_widget(form.BMI) }}
+                    {{ form_errors(form.bmit) }}
+                    {{ form_label(form.bmit) }}
+                    {{ form_widget(form.bmit) }}
                 </div>
                 <div class="col">
                     {{ form_errors(form.position_sport) }}

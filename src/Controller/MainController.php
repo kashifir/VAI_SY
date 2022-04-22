@@ -33,6 +33,7 @@ class MainController extends AbstractController
         $form = $this->createFormBuilder()
             ->add('prenom', TextType::class, [
                 'label' => 'Prénom :',
+                'required' => false,
                 'attr' => [
                     'placeholder' => 'Prénom',
                 ],
@@ -41,6 +42,7 @@ class MainController extends AbstractController
                 ],])
             ->add('noms', TextType::class, [
                 'label' => 'Nom : ',
+                'required' => false,
                 'attr' => [
                     'placeholder' => 'Noms',
                 ],
@@ -49,6 +51,7 @@ class MainController extends AbstractController
                 ],])
             ->add('sexe', ChoiceType::class, [
                 'label' => 'Sexe : ',
+                'required' => false,
                 'choices' => [
                     'Man' => 'H',
                     'Woman' => 'F',
@@ -57,6 +60,7 @@ class MainController extends AbstractController
                 ],])
             ->add('bloodGroup', ChoiceType::class, [
                 'label' => "Blood group : ",
+                'required' => false,
                 'choices' => [
                     'O+' => 'o+',
                     'O-' => 'o-',
@@ -74,12 +78,14 @@ class MainController extends AbstractController
                 'choices' => [
                     'Yes' => 'Yes',
                     'No' => 'No',
-                    '' => 'Autre'
-                ], 'row_attr' => [
+                    'Autre' => ''
+                ], 'required' => false,
+                 'row_attr' => [
                     'class' => 'form-control',
                 ],])
             ->add('age', NumberType::class, [
                 'label' => 'Age :',
+                'required' => false,
                 'attr' => [
                     'placeholder' => 'Age',
                 ],
@@ -88,22 +94,27 @@ class MainController extends AbstractController
                 ],])
             ->add('height', NumberType::class, [
                 'label' => 'Height : ',
+                'required' => false,
                 'attr' => [
                     'placeholder' => 'Height',
+                    'onchange'=>"BMI(event);"
                 ],
                 'row_attr' => [
                     'class' => 'form-control',
                 ],])
             ->add('Weight', NumberType::class, [
                 'label' => 'Weight : ',
+                'required' => false,
                 'attr' => [
                     'placeholder' => 'Weight',
+                    'onchange'=>"BMI(event);"
                 ],
                 'row_attr' => [
                     'class' => 'form-control',
                 ],])
             ->add('position_sport', TextType::class, [
                 'label' => 'position/sport :',
+                'required' => false,
                 'attr' => [
                     'placeholder' => 'Position/Sport',
                 ],
@@ -112,8 +123,12 @@ class MainController extends AbstractController
                 ],])
             ->add('date_of_birth', DateType::class, [
                 'widget' => 'single_text',
-                'format' => 'yyyy-MM-dd'])
-            ->add('BMI', NumberType::class, ['label' => 'BMI', 'attr' => ['placeholder' => 'BMI'], 'row_attr' => ['class' => 'form-control']])
+                'required' => false,
+                'format' => 'yyyy-MM-dd', 'attr'=>['onchange'=>"handler(event);"]])
+            ->add('bmit', TextType::class,
+                ['label' => 'BMI',  'required' => false,
+                    'attr' => ['placeholder' => 'BMI'],
+                    'row_attr' => ['class' => 'form-control']])
             ->add('send', SubmitType::class)
             ->getForm();
 
@@ -184,11 +199,10 @@ class MainController extends AbstractController
                         $data['Weight']
                     ];
                 } elseif ($test->getNoms() === "BMI") {
-                    $form->get('BMI')->setData($data['Weight']/($data['height']*$data['height']));
                     $list[] = [
                         $test->getNoms(),
                         $test->getUnitDeMesure(),
-                        $data['Weight']/($data['height']*$data['height'])
+                        $data['BMI']
                     ];
                 } elseif ($test->getNoms() === "Favorable background conditions") {
                     $list[] = [
