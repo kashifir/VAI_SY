@@ -37,7 +37,7 @@ var dropzoneit = new Dropzone(".my-dropzone", {
                     if(response[i].bar1) {
                         if(response[i].bar1.point !== null) {
                             point1 += parseFloat(response[i].bar1.point)
-                            console.log(point1);
+
                         }
                     } if(response[i].bar2) {
                         if(response[i].bar2.point !== null) {

@@ -68,11 +68,13 @@ class MainController extends AbstractController
                     'AB-' => 'ab-',
                 ], 'row_attr' => [
                     'class' => 'form-control',
-                ],])->add('Favorable_background_conditions', ChoiceType::class, [
+                ]])
+            ->add('Favorable_background_conditions', ChoiceType::class, [
                 'label' => "Favorable background conditions : ",
                 'choices' => [
                     'Yes' => 'Yes',
                     'No' => 'No',
+                    '' => 'Autre'
                 ], 'row_attr' => [
                     'class' => 'form-control',
                 ],])
@@ -119,9 +121,7 @@ class MainController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-
-            $filedate = $em->getRepository(Fromtest::class)->findBySexe(array($data['sexe'], ' '));
-
+            $filedate = $em->getRepository(Fromtest::class)->findBySexe(array($data['sexe'], 'a'));
             foreach ($filedate as $test) {
                 if ($test->getNoms() === "Date") {
                     $list[] = [
@@ -184,10 +184,11 @@ class MainController extends AbstractController
                         $data['Weight']
                     ];
                 } elseif ($test->getNoms() === "BMI") {
+                    $form->get('BMI')->setData($data['Weight']/($data['height']*$data['height']));
                     $list[] = [
                         $test->getNoms(),
                         $test->getUnitDeMesure(),
-                        $data['height'] ^ 2 / $data['Weight']
+                        $data['Weight']/($data['height']*$data['height'])
                     ];
                 } elseif ($test->getNoms() === "Favorable background conditions") {
                     $list[] = [
@@ -196,11 +197,16 @@ class MainController extends AbstractController
                         $data['Favorable_background_conditions']
                     ];
                 } else {
-                    $list[] = [
-                        $test->getNoms(),
-                        $test->getUnitDeMesure(),
-                        ''
-                    ];
+                    if (in_array(array($test->getNoms(), $test->getUnitDeMesure()), $list, true)) {
+                        continue;
+                    }
+                    else {
+                        $list[] = [
+                            $test->getNoms(),
+                            $test->getUnitDeMesure(),
+                            ''
+                        ];
+                    }
                 }
             }
 
