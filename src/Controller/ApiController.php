@@ -13,6 +13,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use OpenApi\Annotations as OA;
 
 
@@ -25,42 +28,29 @@ class ApiController extends AbstractController
      * @return JsonResponse
      *
      * @throws Exception
-     * List the rewards of the specified user.
-     *
-     * This call takes into account all confirmed awards, but not pending or refused awards.
      *
      * @Route ("/api/v1/test",name="api_v1_test",methods={"POST"})
-     *
-     * @OA\Response(
-     *     response=200,
-     *     description="Returns the rewards of an user",
-     *     @Model(type=TESTDEV::class, groups={"non_sensitive_data"})
-     * )
-     * @OA\Parameter(
-     *     name="request",
-     *     in="query",
-     *     description="The field used to order rewards",
-     *     @OA\Schema(type="string")
-     * )
-     * @OA\Tag(name="request")
-     *
      */
     final public function getFileTest(ManagerRegistry $doctrine, Request $request): JsonResponse
     {
+
         $data = $this->xslx($request);
         $reponse = [];
         $objdata = [];
         foreach ($data as $val) {
             $objdata[] = [
-                'Noms' => $val['B'],
-                'Unit_de_mesure' => $val['C'],
-                'data' => $val['D']
+                'Noms' => $val['A'],
+                'Unit_de_mesure' => $val['B'],
+                'data' => $val['C']
             ];
         }
         $sexe = "";
         $age = 0;
         $postion = "";
         foreach ($objdata as $x => $val) {
+            if ($val["Noms"] === "date" || $val['Noms'] === "Date") {
+                continue;
+            }
             if ($val['Noms'] === "man or woman" || $val['Noms'] === "Man or Woman" || $val['Noms'] === "Age" || $val['Noms'] === "age" || $val['Noms'] === 'Position/Sport' || $val['Noms'] === 'position/sport') {
                 if ($val['Noms'] === "man or woman" || $val['Noms'] === "Man or Woman") {
                     $sexe = $val['data'];
@@ -88,17 +78,18 @@ class ApiController extends AbstractController
                     $sexe,
                     $age
                 );
+                //$reponse = $test;
                 $reponse[] = $this->getresTest($test[0], $data, $postion, $reponse);
             }
         }
-
+        dump($reponse);
         return new JsonResponse($reponse);
     }
 
     /**
      * @Route("/upload-excel", name="xlsx")
      * @param Request $request
-     * @return array | \Exception|FileException
+     * @return array | \x&Exception|FileException
      * @throws Exception
      */
     final  public function xslx(Request $request): array|\Exception|FileException
@@ -113,7 +104,7 @@ class ApiController extends AbstractController
             return $e;
         }
         $spreadsheet = IOFactory::load($fileFolder . $filePathName); // Here we are able to read from the Excel file
-        //$row = $spreadsheet->getActiveSheet()->removeRow(1); // I added this to be able to remove the first file line
+        $row = $spreadsheet->getActiveSheet()->removeRow(1); // I added this to be able to remove the first file line
         // here, the read data is turned into an array
         return $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
     }
@@ -289,7 +280,7 @@ class ApiController extends AbstractController
                 break;
             case 'Positivo / Yes':
             case 'No/Yes':
-                if ($data == "Yes" || $data == "yes" || $data == "Positivo" || $data == "Positivo / Yes") {
+                if ($data == "Yes" || $data == "YES" || $data == "yes" || $data == "Positivo" || $data == "Positivo / Yes") {
                     $repose = $this->getArr($test, $data);
                 } else {
                     $repose = $this->getFalArr($test, $data);
@@ -490,7 +481,7 @@ class ApiController extends AbstractController
                 }
                 break;
             case '>=6-6,4':
-                if ($data >= 6 && $data < 6.4) {
+                if ($data >= 6 && $data <= 6.4) {
                     $repose['bar1']['point'] = $test->getPoints2DeBarre();
                     $repose['bar1']['condition'] = $test->getCondition2DeBarre();
                     $repose['bar2']['point'] = $test->getPoints1DeBarre2();
@@ -733,6 +724,12 @@ class ApiController extends AbstractController
                     $repose['bar2']['point'] = $test->getPoints2DeBarre2();
                 }
                 break;
+            case '>= 10 - 12 <':
+                if ($data >= 10 && 12 < $data) {
+                    $repose['bar2']['condition'] = $test->getCondition2DeBarre2();
+                    $repose['bar2']['point'] = $test->getPoints2DeBarre2();
+                }
+                break;
             case '> 11,1':
                 if ($data > 11.1) {
                     $repose['bar2']['condition'] = $test->getCondition2DeBarre2();
@@ -794,6 +791,12 @@ class ApiController extends AbstractController
                     $repose['bar2']['point'] = $test->getPoints3DeBarre2();
                 }
                 break;
+            case '>= 12 - 20 <':
+                if ($data >= 12 && $data < 20) {
+                    $repose['bar2']['condition'] = $test->getCondition3DeBarre2();
+                    $repose['bar2']['point'] = $test->getPoints3DeBarre2();
+                }
+                break;
             case 'Si clinic + imaging + (Acide ialuronique ou PRP ou Stem cells ou cortisone) = Yes':
                 if (strtolower($data) == 'yes') {
                     $repose['bar2']['condition'] = $test->getCondition3DeBarre2();
@@ -804,6 +807,16 @@ class ApiController extends AbstractController
                 if ($data == "Yes" || $data == 'Yes + Grade 2' || $data == 'yes + grade 2' || $data == 'Grade 2' || $data == 'grade 2') {
                     $repose['bar2']['condition'] = $test->getCondition3DeBarre2();
                     $repose['bar2']['point'] = $test->getPoints3DeBarre2();
+                }
+                break;
+        }
+        switch ($test->getCondition4DeBarre2()) {
+            case "":
+                break;
+            case '>= 20':
+                if ($data >= 20) {
+                    $repose['bar2']['condition'] = $test->getCondition4DeBarre2();
+                    $repose['bar2']['point'] = $test->getPoints4DeBarre2();
                 }
                 break;
         }

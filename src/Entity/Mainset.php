@@ -569,192 +569,192 @@ class Mainset
      */
     private ?string $points1DeMarkersSpecifiques3;
 
-    public function getId(): ?int
+   final public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getTypeOfData(): ?string
+    final  public function getTypeOfData(): ?string
     {
         return $this->typeOfData;
     }
 
-    public function setTypeOfData(?string $typeOfData): self
+    final public function setTypeOfData(?string $typeOfData): self
     {
         $this->typeOfData = $typeOfData;
 
         return $this;
     }
 
-    public function getModule(): ?string
+    final public function getModule(): ?string
     {
         return $this->module;
     }
 
-    public function setModule(?string $module): self
+    final public function setModule(?string $module): self
     {
         $this->module = $module;
 
         return $this;
     }
 
-    public function getCommentairesInformations(): ?string
+final public function getCommentairesInformations(): ?string
     {
         return $this->commentairesInformations;
     }
 
-    public function setCommentairesInformations(?string $commentairesInformations): self
+    final public function setCommentairesInformations(?string $commentairesInformations): self
     {
         $this->commentairesInformations = $commentairesInformations;
 
         return $this;
     }
 
-    public function getCommentairesInformations2(): ?string
+    final public function getCommentairesInformations2(): ?string
     {
         return $this->commentairesInformations2;
     }
 
-    public function setCommentairesInformations2(?string $commentairesInformations2): self
+    final public function setCommentairesInformations2(?string $commentairesInformations2): self
     {
         $this->commentairesInformations2 = $commentairesInformations2;
 
         return $this;
     }
 
-    public function getCommentairesInformations3(): ?string
+    final public function getCommentairesInformations3(): ?string
     {
         return $this->commentairesInformations3;
     }
 
-    public function setCommentairesInformations3(?string $commentairesInformations3): self
+final public function setCommentairesInformations3(?string $commentairesInformations3): self
     {
         $this->commentairesInformations3 = $commentairesInformations3;
 
         return $this;
     }
 
-    public function getNomsFrEnIt(): ?string
+final public function getNomsFrEnIt(): ?string
     {
         return $this->nomsFrEnIt;
     }
 
-    public function setNomsFrEnIt(?string $nomsFrEnIt): self
+final public function setNomsFrEnIt(?string $nomsFrEnIt): self
     {
         $this->nomsFrEnIt = $nomsFrEnIt;
 
         return $this;
     }
 
-    public function getNoms(): ?string
+final public function getNoms(): ?string
     {
         return $this->noms;
     }
 
-    public function setNoms(?string $noms): self
+final public function setNoms(?string $noms): self
     {
         $this->noms = $noms;
 
         return $this;
     }
 
-    public function getReferenceSctid(): ?string
+final public function getReferenceSctid(): ?string
     {
         return $this->referenceSctid;
     }
 
-    public function setReferenceSctid(?string $referenceSctid): self
+final public function setReferenceSctid(?string $referenceSctid): self
     {
         $this->referenceSctid = $referenceSctid;
 
         return $this;
     }
 
-    public function getDetail(): ?string
+final public function getDetail(): ?string
     {
         return $this->detail;
     }
 
-    public function setDetail(?string $detail): self
+final public function setDetail(?string $detail): self
     {
         $this->detail = $detail;
 
         return $this;
     }
 
-    public function getDataCategory(): ?string
+final public function getDataCategory(): ?string
     {
         return $this->dataCategory;
     }
 
-    public function setDataCategory(?string $dataCategory): self
+final public function setDataCategory(?string $dataCategory): self
     {
         $this->dataCategory = $dataCategory;
 
         return $this;
     }
 
-    public function getPeriodOfValidity(): ?string
+final public function getPeriodOfValidity(): ?string
     {
         return $this->periodOfValidity;
     }
 
-    public function setPeriodOfValidity(?string $periodOfValidity): self
+final public function setPeriodOfValidity(?string $periodOfValidity): self
     {
         $this->periodOfValidity = $periodOfValidity;
 
         return $this;
     }
 
-    public function getInvalidationIncrement(): ?string
+final public function getInvalidationIncrement(): ?string
     {
         return $this->invalidationIncrement;
     }
 
-    public function setInvalidationIncrement(?string $invalidationIncrement): self
+final public function setInvalidationIncrement(?string $invalidationIncrement): self
     {
         $this->invalidationIncrement = $invalidationIncrement;
 
         return $this;
     }
 
-    public function getSexe(): ?string
+final public function getSexe(): ?string
     {
         return $this->sexe;
     }
 
-    public function setSexe(?string $sexe): self
+final public function setSexe(?string $sexe): self
     {
         $this->sexe = $sexe;
 
         return $this;
     }
 
-    public function getThresholdAgeMin(): ?string
+final public function getThresholdAgeMin(): ?string
     {
         return $this->thresholdAgeMin;
     }
 
-    public function setThresholdAgeMin(?string $thresholdAgeMin): self
+final public function setThresholdAgeMin(?string $thresholdAgeMin): self
     {
         $this->thresholdAgeMin = $thresholdAgeMin;
 
         return $this;
     }
 
-    public function getThresholdAgeMax(): ?string
+final public function getThresholdAgeMax(): ?string
     {
         return $this->thresholdAgeMax;
     }
 
-    public function setThresholdAgeMax(?string $thresholdAgeMax): self
+final public function setThresholdAgeMax(?string $thresholdAgeMax): self
     {
         $this->thresholdAgeMax = $thresholdAgeMax;
 
         return $this;
     }
 
-    public function getDataFormat(): ?string
+final public function getDataFormat(): ?string
     {
         return $this->dataFormat;
     }

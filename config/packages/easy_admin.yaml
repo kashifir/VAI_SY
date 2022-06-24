@@ -1,0 +1,7 @@
+easy_admin:
+  show:
+    max_results: 200
+  entities:
+    Mainset:
+      show:
+        max_results: 500

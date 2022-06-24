@@ -2,124 +2,217 @@
 
 {% block title %}Hello MainController!{% endblock %}
 
-{% block javascripts %}
-    <script type="text/javascript" src="http://d3js.org/d3.v4.min.js" charset="utf-8"></script>
-    <script type="text/javascript" src="{{ asset('build/js/d3gauge.js') }}" charset="utf-8"></script>
-    <script>
 
-        var gauges = []
-        document.addEventListener("DOMContentLoaded", function (event) {
-            var opt = {
-                gaugeRadius: 100,
-                minVal: 0,
-                maxVal: 100,
-                needleVal: Math.round(100),
-                tickSpaceMinVal: 1,
-                tickSpaceMajVal: 10,
-                divID: "gaugeBox",
-                gaugeUnits: "%"
-            }
-            gauges[0] = new drawGauge(opt);
-        })
-        document.addEventListener("DOMContentLoaded", function (event) {
-            var opt = {
-                gaugeRadius: 100,
-                minVal: 0,
-                maxVal: 100,
-                needleVal: Math.round(90),
-                tickSpaceMinVal: 1,
-                tickSpaceMajVal: 10,
-                divID: "gaugeBox1",
-                gaugeUnits: "%"
-            }
-            gauges[1] = new drawGauge(opt);
-        });
-        document.addEventListener("DOMContentLoaded", function (event) {
-            var opt = {
-                gaugeRadius: 100,
-                minVal: 0,
-                maxVal: 100,
-                needleVal: Math.round(20),
-                tickSpaceMinVal: 1,
-                tickSpaceMajVal: 10,
-                divID: "gaugeBox2",
-                gaugeUnits: "%"
-            }
-            gauges[2] = new drawGauge(opt);
-        });
+ {% block javascripts %}
+     {{ parent() }}
+     <script type="text/javascript" src={{ asset('build/js/d3.v4.min.js') }} charset="utf-8"></script>
+     <script type="text/javascript" src="{{ asset('build/js/d3gauge.js') }}" charset="utf-8"></script>
 
-        document.addEventListener("DOMContentLoaded", function (event) {
-            var opt = {
-                gaugeRadius: 100,
-                minVal: 0,
-                maxVal: 100,
-                needleVal: Math.round(30),
-                tickSpaceMinVal: 1,
-                tickSpaceMajVal: 10,
-                divID: "gaugeBox3",
-                gaugeUnits: "%"
-            }
-            gauges[3] = new drawGauge(opt);
-        })
-    </script>
+     <script>
+         function handler(e){
 
+             var dob = new Date(e.target.value);
+             //calculate month difference from current date in time
+             var month_diff = Date.now() - dob.getTime();
 
+             //convert the calculated difference in date format
+             var age_dt = new Date(month_diff);
 
+             //extract year from date
+             var year = age_dt.getUTCFullYear();
 
-{% endblock %}
+             //now calculate the age of the user
+             var age = Math.abs(year - 1970);
+
+             //display the calculated age
+             document.getElementById('form_age').value = age;
+         }
+
+         function BMI(e){
+             if(document.getElementById('form_height').value != '' && document.getElementById('form_Weight').value != ''){
+                 var h = document.getElementById('form_height').value;
+                 var w = document.getElementById('form_Weight').value;
+                 // Fixing upto 2 decimal places
+                 let bmi = (w / ((h * h)
+                     / 10000)).toFixed(2);
+
+                 console.log(bmi)
+                 document.getElementById('form_bmit').value = bmi;
+             }
+         }
+
+     </script>
+ {% endblock %}
 {% block body %}
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-4 border-2 border-dark bg-dark p-3">
-                <div class="container-contact100">
-                    <div class="wrap-contact100">
-                        <form class="contact100-form validate-form">
-                            <div class="wrap-input100 validate-input bg1" data-validate="Please Type Your Name">
-                                <span class="label-input100">Prenom *</span>
-                                <input class="input100" type="text" name="name" placeholder="Prénom">
-                            </div>
-                            <div class="wrap-input100 validate-input bg1">
-                                <span class="label-input100">Nom</span>
-                                <input class="input100" type="text" name="lastname" placeholder="Nom">
-                            </div>
-                            <div class="wrap-input100 validate-input bg1">
-                                <span class="label-input100">Date de naissance </span>
-                                <input class="input100" type="text" name="date" placeholder="Date de naissance">
-                            </div>
-                            <div class="wrap-input100 bg1 rs1-wrap-input100">
-                                <span class="label-input100">age</span>
-                                <input class="input100" type="text" name="age" placeholder="Enter your age">
-                            </div>
-                            <div class="wrap-input100 bg1 rs1-wrap-input100">
-                                <span class="label-input100">Sexe *</span>
-                                <div>
-                                    <select class="custom-select" name="sexe">
-                                        <option>Please chooses</option>
-                                        <option value="H">Man</option>
-                                        <option value="F">WHOMAN</option>
-                                    </select>
-                                </div>
-                            </div>
+    <div class="grid">
+        <div class="col-left">
+            {{ form_start(form) }}
+            <div class="my-custom-class-for-errors">
+                {{ form_errors(form) }}
+            </div>
+            <div class="row">
+                <div class="col">
+                    {{ form_errors(form.noms) }}
+                    {{ form_label(form.noms) }}
+                    {{ form_widget(form.noms) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col" id="some-custom-id">
+                    {{ form_errors(form.prenom) }}
+                    {{ form_label(form.prenom) }}
+                    {{ form_widget(form.prenom) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    {{ form_errors(form.date_of_birth) }}
+                    {{ form_label(form.date_of_birth) }}
+                    {{ form_widget(form.date_of_birth) }}
+                </div>
+                <div class="col" id="some-custom-id">
+                    {{ form_errors(form.age) }}
+                    {{ form_label(form.age) }}
+                    {{ form_widget(form.age) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    {{ form_errors(form.height) }}
+                    {{ form_label(form.height) }}
+                    {{ form_widget(form.height) }}
+                </div>
+                <div class="col">
+                    {{ form_errors(form.Weight) }}
+                    {{ form_label(form.Weight) }}
+                    {{ form_widget(form.Weight) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    {{ form_errors(form.bmit) }}
+                    {{ form_label(form.bmit) }}
+                    {{ form_widget(form.bmit) }}
+                </div>
+                <div class="col">
+                    {{ form_errors(form.position_sport) }}
+                    {{ form_label(form.position_sport) }}
+                    {{ form_widget(form.position_sport) }}
+                </div>
+                <div class="col">
+                    {{ form_errors(form.Favorable_background_conditions) }}
+                    {{ form_label(form.Favorable_background_conditions) }}
+                    {{ form_widget(form.Favorable_background_conditions) }}
+                </div>
+            </div>
 
-                            <div class="wrap-input100 bg1 rs1-wrap-input100">
-                                <span class="label-input100">age</span>
-                                <input class="input100" type="text" name="age" placeholder="Enter your age">
-                            </div>
-                            <div class="container-contact100-form-btn">
-                                <button class="contact100-form-btn">
-						<span>
-							Submit
-							<i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i>
-						</span>
-                                </button>
-                            </div>
-                        </form>
+            <div class="row">
+                <div class="col">
+                    {{ form_errors(form.sexe) }}
+                    {{ form_label(form.sexe) }}
+                    {{ form_widget(form.sexe) }}
+                </div>
+                <div class="col" id="some-custom-id">
+
+                    {{ form_errors(form.bloodGroup) }}
+                    {{ form_label(form.bloodGroup) }}
+                    {{ form_widget(form.bloodGroup) }}
+                </div>
+            </div>
+
+            <div class="d-grid gap-2">
+                {{ form_widget(form.send, {'attr': {'class': 'btn btn-primary'}}) }}
+                <a class="btn btn-primary" href="#open-modal">👋 Uplode file</a>
+            </div>
+
+
+            {{ form_end(form) }}
+
+        </div>
+        <div class="row-right">
+            <div class="col-right">
+                <div class="col-g-1">
+                    <p>General risk</p>
+                    <div class="bord">
+                        <div id="gaugeBox1"></div>
+                        Puissance de précision
+                        <div class="col-g-2"><input type="text"><input type="text"></div>
+                    </div>
+                </div>
+                <div class="col-g-1">
+                    <p>Expected fitness level</p>
+                    <div class="bord">
+                        <div id="gaugeBox2"></div>
+                        Puissance de précision
+                        <div class="col-g-2"><input type="text"><input type="text"></div>
+                    </div>
+
+                </div>
+                <div class="col-g-1">
+                    <p>Risk of alcoholism</p>
+                    <div class="bord">
+                        <div id="gaugeBox3"></div>
+                        Puissance de précision
+                        <div class="col-g-2"><input type="text"><input type="text"></div>
+                    </div>
+                </div>
+                <div class="col-g-1">
+                    <p>Anorexia risk</p>
+                    <div class="bord">
+                        <div id="gaugeBox4"></div>
+                        Puissance de précision
+                        <div class="col-g-2"><input type="text"><input type="text"></div>
+                    </div>
+                </div>
+                <div class="col-g-1">
+                    <p>Fitness evaluation - bar</p>
+                    <div class="bord">
+                        <div id="gaugeBox5"></div>
+                        Puissance de précision
+                        <div class="col-g-2"><input type="text"><input type="text"></div>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="row mt-4">
+                <div class="col-g-12">
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+                             id="progressBar1"
+                             aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0"></div>
                     </div>
                 </div>
             </div>
-            <div class="col-8">
-                qsdqsdq
+            <div class="row mt-4">
+                <div class="col-g-12">
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+                             id="progressBar2"
+                             aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0"></div>
+                    </div>
+                </div>
             </div>
+            <div class="row mt-4">
+                <div class="col-g-12">
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+                             id="progressBar3"
+                             aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0"></div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
+    <!-- Modal -->
+    <div id="open-modal" class="modal-window">
+        <div>
+            <a href="#" title="Close" class="modal-close">Close</a>
+            <h1>Voilà!</h1>
+            <div class="dropzone my-dropzone" id="form_snippet_image" action="{{ path('api_v1_test') }}"></div>
+        </div>
+    </div>
+
+
 {% endblock %}
